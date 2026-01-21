@@ -1,3 +1,6 @@
+from pyexpat import features
+
+
 def open_csv(filename):
     try:
         with open(filename, 'r') as file:
@@ -13,5 +16,18 @@ def parse_csv(filepath):
     data = open_csv(filepath)
     if data is None:
         return None
-    return data.split('\n')
-
+    lines = data.strip().split('\n') # split the data into lines and remove the empty lines
+    data_lines = lines[1:] # remove the header line
+    features = [[] for _ in range(13)] # list of features
+    personal_info = [[] for _ in range(6)] # list of personal information
+    for line in data_lines:
+        line.split(',')
+        for i in range(6):
+            value = line[i+1].strip()
+            if value:
+                personal_info[i].append(value)
+        for i in range(13):
+            value = line[i+6].strip()
+            if value:
+                features[i].append(float(value))
+    return features, personal_info
