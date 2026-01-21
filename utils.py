@@ -21,13 +21,13 @@ def parse_csv(filepath):
     features = [[] for _ in range(13)] # list of features
     personal_info = [[] for _ in range(6)] # list of personal information
     for line in data_lines:
-        line.split(',')
+        cols = line.split(',')
         for i in range(6):
-            value = line[i+1].strip()
+            value = cols[i+1].strip()
             if value:
                 personal_info[i].append(value)
         for i in range(13):
-            value = line[i+6].strip()
+            value = cols[i+6].strip()
             if value:
                 features[i].append(float(value))
     return features, personal_info
