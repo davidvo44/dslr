@@ -92,44 +92,7 @@ def minSubject(index, min, data):
     return min;
 
 def maxSubject(index, max, data):
-    if pd.notna(data["Arithmancy"].iloc[index]):
-        if max < data["Arithmancy"].iloc[index]:
-            max = data["Arithmancy"].iloc[index];
-    if pd.notna(data["Astronomy"].iloc[index]):
-       if max < data["Astronomy"].iloc[index]:
-            max = data["Astronomy"].iloc[index];
-    if pd.notna(data["Herbology"].iloc[index]):
-        if max < data["Herbology"].iloc[index]:
-            max = data["Herbology"].iloc[index];
-    if pd.notna(data["Defense Against the Dark Arts"].iloc[index]):
-        if max < data["Defense Against the Dark Arts"].iloc[index]:
-            max = data["Defense Against the Dark Arts"].iloc[index];
-    if pd.notna(data["Divination"].iloc[index]):
-        if max < data["Divination"].iloc[index]:
-            max = data["Divination"].iloc[index];
-    if pd.notna(data["Muggle Studies"].iloc[index]):
-        if max < data["Muggle Studies"].iloc[index]:
-            max = data["Muggle Studies"].iloc[index];
-    if pd.notna(data["Ancient Runes"].iloc[index]):
-        if max < data["Ancient Runes"].iloc[index]:
-            max = data["Ancient Runes"].iloc[index];
-    if pd.notna(data["History of Magic"].iloc[index]):
-        if max < data["History of Magic"].iloc[index]:
-            max = data["History of Magic"].iloc[index];
-    if pd.notna(data["Transfiguration"].iloc[index]):
-        if max < data["Transfiguration"].iloc[index]:
-            max = data["Transfiguration"].iloc[index];
-    if pd.notna(data["Potions"].iloc[index]):
-        if max < data["Potions"].iloc[index]:
-            max = data["Potions"].iloc[index];
-    if pd.notna(data["Care of Magical Creatures"].iloc[index]):
-       if max < data["Care of Magical Creatures"].iloc[index]:
-            max = data["Care of Magical Creatures"].iloc[index];
-    if pd.notna(data["Charms"].iloc[index]):
-        if max < data["Charms"].iloc[index]:
-            max = data["Charms"].iloc[index];
-    if pd.notna(data["Flying"].iloc[index]):
-        if max < data["Flying"].iloc[index]:
-            max = data["Flying"].iloc[index];
+    result = noteSubject(index, data);
+    if max < result:
+        return result;
     return max;
-

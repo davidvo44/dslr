@@ -7,60 +7,73 @@ import math
 
 def subjectStat():
     result = subjectStatInterface();
-    sheetTemplate13Col(result);
-    return;
-    ravenclawList = [];
-    slytherinList = [];
-    gryffindorList = [];
-    hufflepuffList = [];
+    subjectList = {
+        "Arithmancy": [],
+        "Astronomy": [],
+        "Herbology": [],
+        "DATDA": [],
+        "Divination": [],
+        "MuggleStudies": [],
+        "Ancient Runes": [],
+        "Magic History": [],
+        "Transfigurati": [],
+        "Potions": [],
+        "Care Creature": [],
+        "Charms": [],
+        "Flying": [],
+    }
     try:
         data = pd.read_csv("dataset_train.csv");
-        # yop = data["Hogwarts House"].mean();
         for i in range(len(data)):
-            house = data["Hogwarts House"].iloc[i];
-            if house == "Ravenclaw":
-                result["count0"] += 1;
-                ravenclawList.append(noteSubject(i, data));
-                result["mean0"] += noteSubject(i, data);
-                result["min0"] = minSubject(i,result["min0"] , data);
-                result["max0"] = maxSubject(i,result["max0"] , data);
-            if  house == "Slytherin":
-                result["count1"] += 1;
-                slytherinList.append(noteSubject(i, data));
-                result["mean1"] += noteSubject(i, data);
-                result["min1"] = minSubject(i,result["min1"] , data);
-                result["max1"] = maxSubject(i,result["max1"] , data);
-            if  house == "Gryffindor":
-                result["count2"] += 1;
-                gryffindorList.append(noteSubject(i, data));
-                result["mean2"] += noteSubject(i, data);
-                result["min2"] = minSubject(i,result["min2"] , data);
-                result["max2"] = maxSubject(i,result["max2"] , data);
-            if  house == "Hufflepuff":
-                result["count3"] += 1;
-                hufflepuffList.append(noteSubject(i, data));
-                result["mean3"] += noteSubject(i, data);
-                result["min3"] = minSubject(i,result["min3"] , data);
-                result["max3"] = maxSubject(i,result["max3"] , data);
-        getPercentile(result, ravenclawList, slytherinList, gryffindorList, hufflepuffList);
-        getMean(result);
-        for i in range(len(data)):
-            house = data["Hogwarts House"].iloc[i];
-            if house == "Ravenclaw":
-                result["std0"] += stdSubject(i,result["mean0"], data);
-            if  house == "Slytherin":
-                result["std1"] += stdSubject(i,result["mean1"], data);
-            if  house == "Gryffindor":
-                result["std2"] += stdSubject(i,result["mean2"], data);
-            if  house == "Hufflepuff":
-                result["std3"] += stdSubject(i,result["mean3"], data);
-        getStd(result);
-        normNumber(result);
+             getInfoSubject(data, i, subjectList, result);
     except Exception as e:
         click.echo(f"\nerror: {e}");
+    sheetTemplate13Col(result);
     return;
 
-
+def getInfoSubject(data, index, subjectList, result):
+    if pd.notna(data["Arithmancy"].iloc[index]):
+        result["Arithmancy"]["count"] += 1;
+        subjectList["Arithmancy"].append(data["Arithmancy"].iloc[index]);
+        result["Arithmancy"]["mean"] += (data["Arithmancy"].iloc[index]);
+        result["Arithmancy"]["min"] = minSubject(index,resultHouse["min"] , data);
+    if pd.notna(data["Astronomy"].iloc[index]):
+        result["Astronomy"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Herbology"].iloc[index]):
+        result["Herbology"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Defense Against the Dark Arts"].iloc[index]):
+        result["DATDA"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Divination"].iloc[index]):
+        result["Divination"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Muggle Studies"].iloc[index]):
+        result["MuggleStudies"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Ancient Runes"].iloc[index]):
+        result["Ancient Runes"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["History of Magic"].iloc[index]):
+        result["Magic History"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Transfiguration"].iloc[index]):
+        result["Transfigurati"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Potions"].iloc[index]):
+        result["Potions"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Care of Magical Creatures"].iloc[index]):
+        result["Care Creature"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Charms"].iloc[index]):
+        result["Charms"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    if pd.notna(data["Flying"].iloc[index]):
+        result["Flying"]["count"] += 1;
+        subjectList["Arithmancy"].append(noteSubject(index, data));
+    return;
 
 def getPercentile(result, ravenclawList: list, slytherinList: list, gryffindorList: list, hufflepuffList: list):
     ravenclawList.sort;
