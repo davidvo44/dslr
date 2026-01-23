@@ -7,7 +7,6 @@ PIP = $(VENV)/bin/pip
 
 all: $(VENV)/bin/activate
 
-
 $(VENV)/bin/activate: requirements.txt
 	python3 -m venv $(VENV)
 	$(PIP) install -r requirements.txt
@@ -35,4 +34,3 @@ logreg_train:
 
 logreg_predict:
 	$(PYTHON) logreg_predict.py
-

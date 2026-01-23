@@ -4,6 +4,7 @@ from click.testing import CliRunner
 from InquirerPy import inquirer
 import pandas as pd
 from houseStat import houseStat
+from subjectStat import subjectStat
 
 @click.command()
 
@@ -13,8 +14,8 @@ def main():
             choice = selectMenu()
             if choice == "House Stat":
                 houseStat()
-            # elif choice == "New Data":
-            #     newData()
+            elif choice == "Subject Stat":
+                subjectStat()
             # elif choice == "Graph":
             #     createGraph()
             elif choice == "Quit":

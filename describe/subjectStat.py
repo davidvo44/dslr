@@ -1,12 +1,14 @@
-from StatInterface import houseStatInterface
+from StatInterface import subjectStatInterface
 import pandas as pd
 from utils import countSubject, noteSubject, stdSubject, minSubject, maxSubject
-from sheetTemplate import sheetTemplate4Col
+from sheetTemplate import sheetTemplate13Col
 import click
 import math
 
-def houseStat():
-    result = houseStatInterface();
+def subjectStat():
+    result = subjectStatInterface();
+    sheetTemplate13Col(result);
+    return;
     ravenclawList = [];
     slytherinList = [];
     gryffindorList = [];
@@ -54,7 +56,6 @@ def houseStat():
                 result["std3"] += stdSubject(i,result["mean3"], data);
         getStd(result);
         normNumber(result);
-        sheetTemplate4Col(result);
     except Exception as e:
         click.echo(f"\nerror: {e}");
     return;
