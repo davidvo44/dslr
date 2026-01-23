@@ -25,7 +25,7 @@ def houseStat():
                 getInfoHouse(result["Gryffindor"], houseList['Gryffindor'], data, i);
             if house == "Hufflepuff":
                 getInfoHouse(result["Hufflepuff"], houseList['Hufflepuff'], data, i);
-        click.echo(f"list: {result['Ravenclaw']}");
+        getMean(result);
         for i in range(len(data)):
             house = data["Hogwarts House"].iloc[i];
             if house == "Ravenclaw":
@@ -36,7 +36,6 @@ def houseStat():
                 result["Gryffindor"]["std"] += stdSubject(i,result["Gryffindor"]["mean"], data);
             if  house == "Hufflepuff":
                 result["Hufflepuff"]["std"] += stdSubject(i,result["Hufflepuff"]["mean"], data);
-        getMean(result);
         getStd(result);
         getPercentile(result, houseList);
         normNumber(result);
@@ -81,3 +80,15 @@ def normNumber(result):
         for k, v in house.items():
             if isinstance(v, (int, float)):
                 house[k] = f"{v:.10g}"
+
+def minSubject(index, min, data):
+    result = noteSubject(index, data);
+    if min > result:
+        return result;
+    return min;
+
+def maxSubject(index, max, data):
+    result = noteSubject(index, data);
+    if max < result:
+        return result;
+    return max;
