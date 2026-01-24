@@ -1,6 +1,6 @@
 from StatInterface import subjectStatInterface
 import pandas as pd
-from utils import countSubject, noteSubject, stdSubject
+from utils import  getMean, getStd, getPercentile, normNumber
 from sheetTemplate import sheetTemplate13Col
 import click
 import math
@@ -24,10 +24,17 @@ def subjectStat():
     }
     try:
         data = pd.read_csv("dataset_train.csv");
+
         for i in range(len(data)):
             subjectSearch(data, i, subjectList, result);
+        
         getMean(result);
+        
+        for i in range(len(data)):
+            subjectStd(data, i, result);
         getPercentile(result, subjectList);
+    
+        getStd(result);
     except Exception as e:
         click.echo(f"\nerror: {e}");
     normNumber(result);
@@ -63,6 +70,34 @@ def subjectSearch(data, index, subjectList, result):
         getInfoSubject(result["Flying"], subjectList["Flying"], data["Flying"].iloc[index]);
     return;
 
+def subjectStd(data, index, result):
+    if pd.notna(data["Arithmancy"].iloc[index]):
+        result["Arithmancy"]["std"] = pow(abs(data["Arithmancy"].iloc[index] - result["Arithmancy"]["mean"]), 2);
+    if pd.notna(data["Astronomy"].iloc[index]):
+        result["Astronomy"]["std"] = pow(abs(data["Astronomy"].iloc[index] - result["Astronomy"]["mean"]), 2);
+    if pd.notna(data["Herbology"].iloc[index]):
+        result["Herbology"]["std"] = pow(abs(data["Herbology"].iloc[index] - result["Herbology"]["mean"]), 2);
+    if pd.notna(data["Defense Against the Dark Arts"].iloc[index]):
+        result["DATDA"]["std"] = pow(abs(data["Defense Against the Dark Arts"].iloc[index] - result["DATDA"]["mean"]), 2);
+    if pd.notna(data["Divination"].iloc[index]):
+        result["Divination"]["std"] = pow(abs(data["Divination"].iloc[index] - result["Divination"]["mean"]), 2);
+    if pd.notna(data["Muggle Studies"].iloc[index]):
+        result["MuggleStudies"]["std"] = pow(abs(data["Muggle Studies"].iloc[index] - result["MuggleStudies"]["mean"]), 2);
+    if pd.notna(data["Ancient Runes"].iloc[index]):
+        result["Ancient Runes"]["std"] = pow(abs(data["Ancient Runes"].iloc[index] - result["Ancient Runes"]["mean"]), 2);
+    if pd.notna(data["History of Magic"].iloc[index]):
+        result["Magic History"]["std"] = pow(abs(data["History of Magic"].iloc[index] - result["Magic History"]["mean"]), 2);
+    if pd.notna(data["Transfiguration"].iloc[index]):
+        result["Transfigurati"]["std"] = pow(abs(data["Transfiguration"].iloc[index] - result["Transfigurati"]["mean"]), 2);
+    if pd.notna(data["Potions"].iloc[index]):
+        result["Potions"]["std"] = pow(abs(data["Potions"].iloc[index] - result["Potions"]["mean"]), 2);
+    if pd.notna(data["Care of Magical Creatures"].iloc[index]):
+        result["Care Creature"]["std"] = pow(abs(data["Care of Magical Creatures"].iloc[index] - result["Care Creature"]["mean"]), 2);
+    if pd.notna(data["Charms"].iloc[index]):
+        result["Charms"]["std"] = pow(abs(data["Charms"].iloc[index] - result["Charms"]["mean"]), 2);
+    if pd.notna(data["Flying"].iloc[index]):
+        result["Flying"]["std"] = pow(abs(data["Flying"].iloc[index] - result["Flying"]["mean"]), 2);
+
 def getInfoSubject(resultSubject, listSubject, value):
     resultSubject["count"] += 1;
     listSubject.append(value);
@@ -95,7 +130,7 @@ def getMean(result):
 #global
 def getPercentile(result, list):
     for house in result.keys():
-        list[house].sort;
+        list[house].sort();
         firstStepPercent = result[house]["count"]* 25 / 100;
         firstStepPercent = int(firstStepPercent);
         secondStepPercent = result[house]["count"]* 50 / 100;
@@ -106,3 +141,8 @@ def getPercentile(result, list):
         result[house]["50%"] = list[house][secondStepPercent];
         result[house]["75%"] = list[house][thirdStepPercent];
     return;
+
+# global
+def getStd(result):
+    for house in result.values():
+        house["std"] = math.sqrt(house["std"] / house["count"]);
