@@ -14,6 +14,7 @@ $(VENV)/bin/activate: requirements.txt
 clean:
 	rm -rf __pycache__
 	rm -rf $(VENV)
+	rm -rf histograms
 
 re : clean all
 
