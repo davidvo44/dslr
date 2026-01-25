@@ -5,7 +5,7 @@ from InquirerPy import inquirer
 import pandas as pd
 from houseStat import houseStat
 from subjectStat import subjectStat
-
+# from utils import parse_csv
 @click.command()
 
 def main():
@@ -32,5 +32,5 @@ def selectMenu():
         choices=["House Stat", "Subject Stat", "Personal Info Stat", "Quit"]
     ).execute()
 
-if __name__ == '__main__':
-    main() 
+if __name__ == "__main__":
+    main()

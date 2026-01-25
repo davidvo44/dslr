@@ -1,6 +1,6 @@
 from StatInterface import houseStatInterface
 import pandas as pd
-from utils import  getMean, getStd, getPercentile, normNumber
+from utilsDescribe import  getMean, getStd, getPercentile, normNumber
 from sheetTemplate import sheetTemplate4Col
 import click
 import math

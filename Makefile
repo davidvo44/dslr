@@ -12,6 +12,7 @@ $(VENV)/bin/activate: requirements.txt
 	$(PIP) install -r requirements.txt
 
 clean:
+	$(PYTHON) clean.py
 	rm -rf __pycache__
 	rm -rf $(VENV)
 	rm -rf histograms

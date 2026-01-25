@@ -43,3 +43,9 @@ Ou via le Makefile :
 ```bash
 make histogram
 ```
+
+
+## Lien Utile
+
+https://mrmint.fr/gradient-descent-algorithm
+
