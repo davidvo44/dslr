@@ -17,6 +17,8 @@ def parse_csv(filepath):
     if data is None:
         return None
     lines = data.strip().split('\n') # split the data into lines and remove the empty lines
+    header = lines[0].split(",")
+    course_name = [header[i+6].strip() for i in range(13)] 
     data_lines = lines[1:] # remove the header line
     features = [[] for _ in range(13)] # list of features
     personal_info = [[] for _ in range(6)] # list of personal information
@@ -26,8 +28,12 @@ def parse_csv(filepath):
             value = cols[i+1].strip()
             if value:
                 personal_info[i].append(value)
+            else:
+                personal_info[i].append(None)
         for i in range(13):
             value = cols[i+6].strip()
             if value:
                 features[i].append(float(value))
-    return features, personal_info
+            else:
+                features[i].append(None)
+    return features, personal_info, course_name
