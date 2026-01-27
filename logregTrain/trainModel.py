@@ -1,0 +1,3 @@
+
+def trainmodel():
+    return;

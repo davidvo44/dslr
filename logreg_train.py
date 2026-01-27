@@ -1,11 +1,12 @@
 import os,stat 
 from utils import checkFile_csv
 import sys
+from logregTrain.trainModel import trainmodel
 
-def main():
+def main(file_path):
     createDBFile();
-    
-    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+    trainmodel();
+    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
     return;
 
 
@@ -16,11 +17,13 @@ def createDBFile():
             return;
     except Exception as e:
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
-        print("file already exist\n");
+        # print("file already exist\n");
 
 if __name__ == '__main__':
-    print(len(sys.argv));
-    file_path = "datasets/dataset_train.csv"
-    checkFile_csv(file_path);
-    main()
+    if len(sys.argv) != 2:
+        print("error argument file");
+    else:
+        file_path = "datasets/dataset_train.csv"
+        if (checkFile_csv(sys.argv[1])== True):
+            main(file_path);
 
