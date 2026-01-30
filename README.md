@@ -44,8 +44,36 @@ Ou via le Makefile :
 make histogram
 ```
 
+# Log Train
 
-## Lien Utile
+Etape 1: 
+    Transformer Maison en nombre en appliquant la tech du One For All:
+        ex: Gryffundor = 1;
+        Hufflepuff = Slytherin = Ravenclaw = 0;
+
+Etape 2:
+Utilisation du Machine Learning
+Faire recherche du Poids W et du Biais B de la fonction Logistic Regression: z = w * x + b:
+Pour Cela, entrainer le modele;
+Repeter l'etape jusqu'a difference minime
+
+Pour cela:
+    
+∂L / ∂w ​= 1/n * ​∑( y^​ − y )⋅x;
+w= w − α * ∂L / ∂w;
+
+∂L / ∂b ​= 1/n * ​∑( y^​−y)
+b = b − α * ∂L / ∂b
+
+Repeter l'etape jusqu'a difference faible entre les deux W et les deux B
+
+
+Etape 3?:
+L’algorithme : One vs All
+
+
+# Lien Utile
 
 https://mrmint.fr/gradient-descent-algorithm
+https://www.geeksforgeeks.org/machine-learning/derivative-of-the-sigmoid-function/
 

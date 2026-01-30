@@ -5,7 +5,7 @@ from logregTrain.trainModel import trainmodel
 
 def main(file_path):
     createDBFile();
-    trainmodel();
+    trainmodel(file_path);
     os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
     return;
 
@@ -13,7 +13,7 @@ def main(file_path):
 def createDBFile():
     try:
         with open("db.csv", 'w') as f:
-            f.write('tetha0,tetha1\n0,0\n');
+            f.write('Weight,Bias\n0,0\n');
             return;
     except Exception as e:
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
@@ -26,4 +26,6 @@ if __name__ == '__main__':
         file_path = "datasets/dataset_train.csv"
         if (checkFile_csv(sys.argv[1])== True):
             main(file_path);
+        else:
+            print("Invalid File");
 
