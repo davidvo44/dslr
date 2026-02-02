@@ -29,7 +29,10 @@ def pair_plot(features, personal_info, course_name):
             house_personal = personal_info[0]
             if row == col:
                 for house in HOUSE_ORDER:
-                    house_vals = [v for v in features[row] if v is not None and house_personal[v] == house]
+                    house_vals = [
+                        v for i, v in enumerate(features[row])
+                        if v is not None and i < len(house_personal) and house_personal[i] == house
+                    ]
                     ax.hist(house_vals, density=True, alpha=0.5, color=HOUSE_COLORS[house],bins=10)
                 continue
             features_data_x = features[col]
