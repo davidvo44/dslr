@@ -8,7 +8,7 @@ HOUSE_COLORS = {
     "Ravenclaw": "yellow",
     "Slytherin": "green",
     }
-    
+
 HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
 def min_note(all_note):
@@ -27,7 +27,7 @@ def max_note(all_note):
 
 
 def histogram(features, personal_info, course_name):
-    if features is None or personal_info is None:
+    if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
         return None
 

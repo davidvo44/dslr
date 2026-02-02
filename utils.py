@@ -1,5 +1,3 @@
-from pyexpat import features
-
 
 def open_csv(filename):
     try:
