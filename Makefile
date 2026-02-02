@@ -22,4 +22,4 @@ logreg_predict:
 	$(PYTHON) logreg_predict.py
 
 clean:
-	rm -rf histograms scatter_plots
+	rm -rf histograms scatter_plots pair_plots
