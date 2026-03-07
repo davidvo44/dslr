@@ -69,11 +69,39 @@ Repeter l'etape jusqu'a difference faible entre les deux W et les deux B
 
 
 Etape 3?:
-L’algorithme : One vs All
+    Des qu'on a trouve W et B, on peut appliquer la fonction:
+        Y = W * x + B;
+        puis:
+            S(Y) = 1 / (1 + e^-Y);
+        Trouve la probabilite de trouver vers le cote 1, ou 0;
+
+Etape 4:
+    L’algorithme : One vs All
+    Principe: calculer S(Y) pour:
+        Gryffindor : 1, Other 0;
+        Ravenclaw : 1, Other 0;
+        Slytherin : 1, Other 0;
+        Hufflepuff : 1, Other 0;
+    Appliquer a chaque Matiere pour plus de Precision;
+
+
+DB a Stocker:
+
+    House,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying
+    RavenclawBias,0,0,0,0,0,0,0,0,0,0,0,0
+    RavenclawWeight,0,0,0,0,0,0,0,0,0,0,0,0
+    GryffundorBias,0,0,0,0,0,0,0,0,0,0,0,0
+    GryffundorWeight,0,0,0,0,0,0,0,0,0,0,0,0
+    SlytherinBiai,0,0,0,0,0,0,0,0,0,0,0,0
+    SlytherinWeight,0,0,0,0,0,0,0,0,0,0,0,0
+    HufflepuffBias,0,0,0,0,0,0,0,0,0,0,0,0
+    HufflepuffWeight,0,0,0,0,0,0,0,0,0,0,0,0
+
 
 
 # Lien Utile
 
 https://mrmint.fr/gradient-descent-algorithm
+
 https://www.geeksforgeeks.org/machine-learning/derivative-of-the-sigmoid-function/
 

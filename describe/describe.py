@@ -16,8 +16,6 @@ def main():
                 houseStat()
             elif choice == "Subject Stat":
                 subjectStat()
-            # elif choice == "Graph":
-            #     createGraph()
             elif choice == "Quit":
                 break;
             time.sleep(1);
