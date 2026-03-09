@@ -88,21 +88,15 @@ def createDBFile():
     try:
         with open("db.csv", 'w') as f:
             f.write("\
-House,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying\n\
-RavenclawBias,0,0,0,0,0,0,0,0,0,0,0,0\n\
-RavenclawWeight,0,0,0,0,0,0,0,0,0,0,0,0\n\
-GryffundorBias,0,0,0,0,0,0,0,0,0,0,0,0\n\
-GryffundorWeight,0,0,0,0,0,0,0,0,0,0,0,0\n\
-SlytherinBias,0,0,0,0,0,0,0,0,0,0,0,0\n\
-SlytherinWeight,0,0,0,0,0,0,0,0,0,0,0,0\n\
-HufflepuffBias,0,0,0,0,0,0,0,0,0,0,0,0\n\
-HufflepuffWeight,0,0,0,0,0,0,0,0,0,0,0,0\n");
+House,Bias,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying\n\
+Ravenclaw,0,0,0,0,0,0,0,0,0,0,0,0,0\n\
+Gryffindor,0,0,0,0,0,0,0,0,0,0,0,0,0\n\
+Slytherin,0,0,0,0,0,0,0,0,0,0,0,0,0\n\
+Hufflepuff,0,0,0,0,0,0,0,0,0,0,0,0,0\n");
             return;
     except Exception as e:
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
         # print("file already exist\n");
-
-
 
 
 # def main(file_path):
@@ -118,4 +112,5 @@ if __name__ == "__main__":
     if features is None or personal_info is None or course_name is None:
         print("Error")
         exit(1)
+    createDBFile();
     logreg_train(features, personal_info, course_name)
