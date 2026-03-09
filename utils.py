@@ -38,6 +38,7 @@ def parse_csv(filepath):
             else:
                 features[i].append(None)
     return features, personal_info, course_name
+
 def checkFile_csv(filepath):
     try:
         data = pd.read_csv(filepath);

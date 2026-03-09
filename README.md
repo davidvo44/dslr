@@ -79,6 +79,7 @@ Sigmoïde
   z très négatif  -> sigmoid(z) proche de 0
 - Dans la régression logistique, z = theta^T x (somme des poids * features).
 
+<<<<<<< HEAD
 
 # Log Train
 
@@ -107,6 +108,8 @@ Repeter l'etape jusqu'a difference faible entre les deux W et les deux B
 Etape 3?:
 L’algorithme : One vs All
 
+`logreg_train.py` va nous permettre déntrainer notre model one for all pour definir un poid qui va nous permettre de dire si ce nouveau eleves va etre dans cette maison ou dans une autre maison
+
 
 # Lien Utile
 
@@ -114,3 +117,5 @@ https://mrmint.fr/gradient-descent-algorithm
 https://www.geeksforgeeks.org/machine-learning/derivative-of-the-sigmoid-function/
 
 https://mrmint.fr/logistic-regression-machine-learning-introduction-simple
+
+
