@@ -41,26 +41,25 @@ Ou via le Makefile :
 ```bash
 make histogram
 ```
+
 # pair_plot
 
 `pair_plot.py` génère une scatter plot matrix (pair plot) du dataset d'entraînement.
 La diagonale affiche des histogrammes et le triangle inférieur affiche des scatterplots, colorés par maison, pour aider à choisir les features utiles à la régression logistique. 
 (Question du sujet: “From this visualization, what features are you going to use…”.) 
 
+# Sigmoïde & Dérivée
 
+Sigmoid : la fonction sert à prédire la probabilité h = σ(θᵀx) ∈.
+La dérivée sert à savoir comment l'erreur change en fonction du poids (apprendre). Sans la dérivée, je ne sais pas dans quel sens bouger theta.
 
-Sigmoid la fonction sert a predire 
-la derivé sert a savoir comment lerreur change en fonction du poids (apprendre) sans la derive je ne sais pas dans quel sens bouger theta
+La dérivée, c'est la pente.
 
-La dérivée, c’est la pente.
-
-Si la pente est positive, tu es en train de monter : pour descendre (réduire l’erreur), tu vas dans l’autre sens.
-​
+Si la pente est positive, tu es en train de monter : pour descendre (réduire l'erreur), tu vas dans l'autre sens.
 
 Si la pente est négative, tu descends déjà : tu continues dans ce sens.
-​
 
-C’est exactement pour ça que la descente de gradient fonctionne : elle suit la pente de l’erreur pour la réduire.
+C'est exactement pour ça que la descente de gradient fonctionne : elle suit la pente de l'erreur pour la réduire.
 
 exp(x) (exponentielle)
 - exp(x) = e^x.
@@ -79,36 +78,22 @@ Sigmoïde
   z très négatif  -> sigmoid(z) proche de 0
 - Dans la régression logistique, z = theta^T x (somme des poids * features).
 
-<<<<<<< HEAD
-
 # Log Train
 
-Etape 1: 
-    Transformer Maison en nombre en appliquant la tech du One For All:
-        ex: Gryffundor = 1;
-        Hufflepuff = Slytherin = Ravenclaw = 0;
-
-Etape 2:
-Utilisation du Machine Learning
-Faire recherche du Poids W et du Biais B de la fonction Logistic Regression: z = w * x + b:
-Pour Cela, entrainer le modele;
-Repeter l'etape jusqu'a difference minime
-
-Pour cela:
-    
-∂L / ∂w ​= 1/n * ​∑( y^​ − y )⋅x;
-w= w − α * ∂L / ∂w;
-
-∂L / ∂b ​= 1/n * ​∑( y^​−y)
-b = b − α * ∂L / ∂b
-
-Repeter l'etape jusqu'a difference faible entre les deux W et les deux B
-
-
-Etape 3?:
 L’algorithme : One vs All
 
-`logreg_train.py` va nous permettre déntrainer notre model one for all pour definir un poid qui va nous permettre de dire si ce nouveau eleves va etre dans cette maison ou dans une autre maison
+`logreg_train.py` va nous permettre d'entraîner notre modèle **one-vs-all** pour définir un **poids** (θ) qui va nous permettre de dire si ce nouvel élève va être dans cette maison ou dans une autre. Pour cela, et pour **chaque maison**, nous allons définir `theta[house] = [0.0, 0.0, 0.0, 0.0, 0.0]` en choisissant 4 matières que nous avons trouvées pertinentes grâce aux deux derniers programmes qui nous permettent de visualiser les différences entre maisons.
+
+Ensuite, grâce à différentes formules telles que la fonction **sigmoid** , **score_lineaire** et le **gradient descent**
+
+L'algorithme One-vs-All
+1. `theta[house] = [0.0, 0.0, 0.0, 0.0, 0.0]` (4 features pertinentes)
+2. **score_lineaire** z = θᵀ × x  chaque feature × son poids
+3. **sigmoïde** : σ(z) = 1/(1+e^{-z}) → transforme score en proba [0,1]
+4. **gradient descent** θ ← θ - α × (1/m) × Σᵢ eᵢ × xᵢⱼ cest le poid - le learning rate * (1/le nombre d'eleves) * la somme de chaque erreurs * le poids 
+
+ on obtient un θ optimise par maison qui va permettre au prochain programme `logreg_predict` de placer chaque élève dans la maison correspondante. Nous aurons par exemple `theta["Gryffindor"] = [-1.1489, 3.9738, -6.8656, 15.9071, -13.0446]`. En lecture, le biais à -1.148 permet de voir que le programme devrait marcher correctement vu que chaque élève qui va être testé a **75% de chance de ne pas correspondre** à la maison Gryffindor, donc le biais sera négatif.
+
 
 
 # Lien Utile
