@@ -1,2 +1,9 @@
-Weight,Bias
-0,0
+House,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying
+RavenclawBias,0,0,0,0,0,0,0,0,0,0,0,0
+RavenclawWeight,0,0,0,0,0,0,0,0,0,0,0,0
+GryffundorBias,0,0,0,0,0,0,0,0,0,0,0,0
+GryffundorWeight,0,0,0,0,0,0,0,0,0,0,0,0
+SlytherinBias,0,0,0,0,0,0,0,0,0,0,0,0
+SlytherinWeight,0,0,0,0,0,0,0,0,0,0,0,0
+HufflepuffBias,0,0,0,0,0,0,0,0,0,0,0,0
+HufflepuffWeight,0,0,0,0,0,0,0,0,0,0,0,0

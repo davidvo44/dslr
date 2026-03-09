@@ -113,3 +113,4 @@ L’algorithme : One vs All
 https://mrmint.fr/gradient-descent-algorithm
 https://www.geeksforgeeks.org/machine-learning/derivative-of-the-sigmoid-function/
 
+https://mrmint.fr/logistic-regression-machine-learning-introduction-simple

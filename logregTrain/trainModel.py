@@ -4,13 +4,13 @@ import pandas as pd
 def trainmodel(filename):
     dataFile = pd.read_csv(filename);
     currentDatabase = pd.read_csv("db.csv");
-    CurWeight = currentDatabase["Weight"].iloc[0];
-    CurBias = currentDatabase["Bias"].iloc[0];
-    print(CurBias);
-    while True:
-        newWeight = calculateWeight(dataFile, CurWeight, CurBias);
-        print(newWeight);
-        return;
+    # CurWeight = currentDatabase["Weight"].iloc[0];
+    # CurBias = currentDatabase["Bias"].iloc[0];
+    # print(CurBias);
+    # while True:
+    #     newWeight = calculateWeight(dataFile, CurWeight, CurBias);
+    #     print(newWeight);
+    #     return;
     return;
 
 def calculateWeight(dataFile, Weight, Bias):
