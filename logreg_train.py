@@ -1,29 +1,50 @@
 import utils
 import os,stat 
-HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+import pandas as pd
 
-def logreg_train(features, personal_info, course_name):
+HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+COLUMN_ORDER = {
+    "Arithmancy": 1,
+    "Astronomy": 2,
+    "Herbology": 3,
+    "Defense Against the Dark Arts": 4,
+    "Divination": 5,
+    "Muggle Studies": 6,
+    "Ancient Runes": 7,
+    "History of Magic": 8,
+    "Transfiguration": 9,
+    "Potions": 10,
+    "Care of Magical Creatures": 11,
+    "Charms": 12,
+    "Flying": 13
+}
+
+def logreg_train(features, personal_info, course_name, subjectChosen):
     if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
         return None
 
-    all_theta_house = {}
+    subjectTheta = {}
+
+    for subject in subjectChosen:
+        subjectTheta[subject] = 0;
+    
     count = len(features)
-    feat_idx = [1, 4, 7, 9]
+    feat_idx = [1, 4, 7, 9, 2];
     learning_rate = 0.01
 
     m = len(personal_info)
-    n = len(feat_idx) + 1
+    n = len(subjectChosen) + 1
     X = []
     for i in range(m):
         x = [1.0]
         has_None = False
-        for idx in feat_idx:
-            val = features[i][idx]
+        for idx in subjectChosen:
+            val = features[i][COLUMN_ORDER[idx]]
             if val is None:
                 has_None = True
                 break
-            x.append(features[i][idx])
+            x.append(features[i][COLUMN_ORDER[idx]])
         if not has_None:
             X.append(x)
     for house in HOUSE_ORDER:
@@ -34,9 +55,10 @@ def logreg_train(features, personal_info, course_name):
 
         theta = grad_descent(X, y, theta, 1000, 0.01)
 
-        all_theta_house[house] = theta
-    print("Gryffindor theta:", all_theta_house["Gryffindor"][:5])
-    return all_theta_house
+        subjectTheta[house] = theta;
+    
+    print("Gryffindor theta:", subjectTheta["Gryffindor"][2]);
+    return subjectTheta
 
 def score_lineaire(student, poid): #formule theta^t * x
     count = len(student)
@@ -98,13 +120,21 @@ Hufflepuff,0,0,0,0,0,0,0,0,0,0,0,0,0\n");
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
         # print("file already exist\n");
 
+def updateData(subjectChosen, thetaHouse):
+    dataFile = pd.read_csv("db.csv");
+    for iHouse in range (len(HOUSE_ORDER)):
+        for subject in subjectChosen:
+            indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0];
+            dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER][iHouse]["value"][subject];
 
-# def main(file_path):
-#     createDBFile();
-#     trainmodel(file_path);
-#     os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
-#     return;
-
+def houseStatInterface():
+    result = {
+    "Ravenclaw": {"index": "Ravenclaw", "bias": 0, "value": {}},
+    "Slytherin":  {"index": "Slytherin", "bias": 0, "value": {}},
+    "Gryffindor":  {"index": "Gryffindor", "bias": 0, "value": {}},
+    "Hufflepuff":  {"index": "Hufflepuff", "bias": 0, "value": {}}
+    }
+    return result;
 
 if __name__ == "__main__":
     file_path = "datasets/dataset_train.csv"
@@ -113,4 +143,7 @@ if __name__ == "__main__":
         print("Error")
         exit(1)
     createDBFile();
-    logreg_train(features, personal_info, course_name)
+    subjectChosen = ["Arithmancy", "Astronomy", "Herbology", "Muggle Studies"];
+    thetaHouse = logreg_train(features, personal_info, course_name, subjectChosen);
+    updateData(subjectChosen, thetaHouse);
+    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
