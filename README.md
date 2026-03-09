@@ -88,3 +88,7 @@ Sigmoïde
   z = 0           -> sigmoid(z) = 0.5
   z très négatif  -> sigmoid(z) proche de 0
 - Dans la régression logistique, z = theta^T x (somme des poids * features).
+
+# logreg_train
+
+`logreg_train.py` va nous permettre déntrainer notre model one for all pour definir un poid qui va nous permettre de dire si ce nouveau eleves va etre dans cette maison ou dans une autre maison
