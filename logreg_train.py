@@ -1,6 +1,9 @@
 import utils
 import os,stat 
 import pandas as pd
+from InquirerPy import inquirer
+import click
+
 
 HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 COLUMN_ORDER = {
@@ -25,7 +28,7 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
         return None
 
     subjectTheta = {}
-
+    subjectValue = houseStatInterface();
     for subject in subjectChosen:
         subjectTheta[subject] = 0;
     
@@ -33,32 +36,37 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
     feat_idx = [1, 4, 7, 9, 2];
     learning_rate = 0.01
 
-    m = len(personal_info)
-    n = len(subjectChosen) + 1
+    lenPersonalInfo= len(personal_info)
+    lenSubjectChosen = len(subjectChosen) + 1
     X = []
-    for i in range(m):
+    for idxPersonal in range(lenPersonalInfo):
         x = [1.0]
         has_None = False
-        for idx in subjectChosen:
-            val = features[i][COLUMN_ORDER[idx]]
+        for idxSubject in subjectChosen:
+            val = features[idxPersonal][COLUMN_ORDER[idxSubject]]
             if val is None:
                 has_None = True
                 break
-            x.append(features[i][COLUMN_ORDER[idx]])
+            x.append(features[idxPersonal][COLUMN_ORDER[idxSubject]])
         if not has_None:
             X.append(x)
     for house in HOUSE_ORDER:
         y = []
-        for i in range(m):
-            y.append(1.0 if personal_info[i][2] == house else 0.0)
-        theta = [0.0] * n
+        for idxPersonal in range(lenPersonalInfo):
+            y.append(1.0 if personal_info[idxPersonal][2] == house else 0.0)
+        theta = [0.0] * lenSubjectChosen;
 
         theta = grad_descent(X, y, theta, 1000, 0.01)
 
-        subjectTheta[house] = theta;
+        subjectValue[house]['bias'] = theta[0];
+        theta.remove(theta[0]);
+        theta = dict(zip(subjectChosen, theta));
+        subjectValue[house]['value'] = theta;
+        
+    print(subjectValue);
     
-    print("Gryffindor theta:", subjectTheta["Gryffindor"][2]);
-    return subjectTheta
+    # print("Gryffindor theta:", subjectValue["Gryffindor"]);
+    return subjectValue;
 
 def score_lineaire(student, poid): #formule theta^t * x
     count = len(student)
@@ -111,21 +119,25 @@ def createDBFile():
         with open("db.csv", 'w') as f:
             f.write("\
 House,Bias,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying\n\
-Ravenclaw,0,0,0,0,0,0,0,0,0,0,0,0,0\n\
-Gryffindor,0,0,0,0,0,0,0,0,0,0,0,0,0\n\
-Slytherin,0,0,0,0,0,0,0,0,0,0,0,0,0\n\
-Hufflepuff,0,0,0,0,0,0,0,0,0,0,0,0,0\n");
+Ravenclaw,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
+Gryffindor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
+Slytherin,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
+Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n");
             return;
     except Exception as e:
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
-        # print("file already exist\n");
 
 def updateData(subjectChosen, thetaHouse):
-    dataFile = pd.read_csv("db.csv");
+    
+    dataFile = pd.read_csv("db.csv").set_index("House");
     for iHouse in range (len(HOUSE_ORDER)):
+        dataFile.loc[HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[HOUSE_ORDER[iHouse]]["bias"];
         for subject in subjectChosen:
-            indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0];
-            dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER][iHouse]["value"][subject];
+            # indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0];
+            click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'));
+            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
+    dataFile.to_csv("db.csv");
+            # dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
 
 def houseStatInterface():
     result = {
@@ -136,14 +148,81 @@ def houseStatInterface():
     }
     return result;
 
-if __name__ == "__main__":
+def selectMenu():
+    return inquirer.select(
+        message="\n\nYour choice ?",
+        choices=["Subject Choice", "Predefined Subject", "Quit"]
+    ).execute()
+
+def selectSubject():
+    chosenSubject = [];
+    subjectList = ["Arithmancy",
+        "Astronomy",
+        "Herbology",
+        "Defense Against the Dark Arts",
+        "Divination",
+        "Muggle Studies",
+        "Ancient Runes",
+        "History of Magic",
+        "Transfiguration",
+        "Potions",
+        "Care of Magical Creatures",
+        "Charms",
+        "Flying"]
+
+    try:
+        while True:
+            choice = getSubject(subjectList)
+            if choice == "return":
+                return chosenSubject;
+            subjectList.remove(choice);
+            chosenSubject.append(choice);
+            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'));
+        
+    except:
+        click.echo(click.style(f"\nForce Quit...", fg='red'));
+        return [];
+
+
+def getSubject(subjectList):
+    choicesAdd = [];
+    for subject in  subjectList:
+        choicesAdd.append(subject);
+    choicesAdd.append("return");
+    return inquirer.select(
+        message="\n\nSelect Your Subject ?",
+        choices = choicesAdd
+    ).execute()
+
+
+
+def main():
     file_path = "datasets/dataset_train.csv"
     features, personal_info, course_name = utils.parse_csv(file_path)
     if features is None or personal_info is None or course_name is None:
         print("Error")
         exit(1)
     createDBFile();
-    subjectChosen = ["Arithmancy", "Astronomy", "Herbology", "Muggle Studies"];
+    subjectChosen = [];
+    try:
+        choice = selectMenu();
+    except KeyboardInterrupt:
+        click.echo(click.style(f"\nForce Quit...", fg='red'));
+        return ;
+    if choice == "Subject Choice":
+        subjectChosen = selectSubject();
+    elif choice == "Predefined Subject":
+        subjectChosen = ["Arithmancy", "Astronomy", "Herbology", "Muggle Studies"];
+        click.echo(click.style(f"\nChosen Subject: {subjectChosen}", fg='green'));
+    elif choice == "Quit":
+        click.echo(click.style(f"\nLeaving....", fg='red'));
+        return;
     thetaHouse = logreg_train(features, personal_info, course_name, subjectChosen);
     updateData(subjectChosen, thetaHouse);
     os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
+
+if __name__ == "__main__":
+        main();
+
+
+# TO DO, split les fonctions en plusieures fichiers
