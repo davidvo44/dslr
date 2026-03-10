@@ -47,7 +47,7 @@ def predictmodel(dataFile, inputFile, indexStudent):
                 continue;
             studentScore = inputFile[subject].iloc[indexStudent];
             result[idxHouse]["value"] += studentScore * weight;
-            click.echo(click.style(f"\nDEBUG MODE: {result[idxHouse]['value']}", fg='cyan'));
+            # click.echo(click.style(f"\nDEBUG MODE: {result[idxHouse]['value']}", fg='cyan'));
     if count != 0:
         for idxHouse in houseList:
             bias = dataFile.loc[idxHouse, 'Bias'];
@@ -61,9 +61,6 @@ def predictmodel(dataFile, inputFile, indexStudent):
             houseResult = idxHouse;
     return houseResult;
                 
-                
-            
-
 
 def sigmoidFormula(z):
     return 1.0 / (1.0 + ft_exp(-z))

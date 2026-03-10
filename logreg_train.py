@@ -126,6 +126,7 @@ Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n");
             return;
     except Exception as e:
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
+    
 
 def updateData(subjectChosen, thetaHouse):
     
@@ -133,11 +134,9 @@ def updateData(subjectChosen, thetaHouse):
     for iHouse in range (len(HOUSE_ORDER)):
         dataFile.loc[HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[HOUSE_ORDER[iHouse]]["bias"];
         for subject in subjectChosen:
-            # indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0];
-            click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'));
+            # click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'));
             dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
     dataFile.to_csv("db.csv");
-            # dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
 
 def houseStatInterface():
     result = {
@@ -173,7 +172,7 @@ def selectSubject():
     try:
         while True:
             choice = getSubject(subjectList)
-            if choice == "return":
+            if choice == "Done":
                 return chosenSubject;
             subjectList.remove(choice);
             chosenSubject.append(choice);
@@ -188,7 +187,7 @@ def getSubject(subjectList):
     choicesAdd = [];
     for subject in  subjectList:
         choicesAdd.append(subject);
-    choicesAdd.append("return");
+    choicesAdd.append("Done");
     return inquirer.select(
         message="\n\nSelect Your Subject ?",
         choices = choicesAdd
