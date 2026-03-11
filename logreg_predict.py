@@ -20,11 +20,11 @@ def main(file_path):
     os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
     inputFile = pd.read_csv(file_path)
     dataFile = pd.read_csv("db.csv").set_index("House")
-    for i in range(len(inputFile)):
-        firstName = inputFile["First Name"].iloc[i]
-        lastName = inputFile["Last Name"].iloc[i]
-        houseResult = predictmodel(dataFile, inputFile, i)
-        houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
+    for indexStudent in range(len(inputFile)):
+        firstName = inputFile["First Name"].iloc[indexStudent]
+        lastName = inputFile["Last Name"].iloc[indexStudent]
+        houseResult = predictmodel(dataFile, inputFile,indexStudent)
+        houseResult =  str(inputFile["Index"].iloc[indexStudent]) + "," + houseResult
         print(houseResult)
 #        if i == 2:
 #           return
