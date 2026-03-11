@@ -42,8 +42,6 @@ def predictmodel(dataFile, inputFile, indexStudent):
         for idxHouse in houseList:
             bias = dataFile.loc[idxHouse, 'Bias']
             weight =  dataFile.loc[idxHouse, subject]
-            # print(type(weight))
-            # print(weight)
             if weight == 0:
                 continue
             studentScore = inputFile[subject].iloc[indexStudent]
@@ -56,7 +54,6 @@ def predictmodel(dataFile, inputFile, indexStudent):
             bias = dataFile.loc[idxHouse, 'Bias']
             if bias == 0:
                 continue
-            #print (result[idxHouse]["value"])
             result[idxHouse]["value"] += bias
             result[idxHouse]["value"] = sigmoidFormula(result[idxHouse]["value"])
     houseResult = "Ravenclaw"
