@@ -22,24 +22,45 @@ COLUMN_ORDER = {
     "Flying": 13
 }
 
-def ft_sqrt(a)
-    if a == 0
+def ft_sqrt(a):
+    if a == 0:
         return 0
     x = a / 2
-    for i in range(6)
-        x = 0.5(x + a/x)
+    for i in range(6):
+        x = 0.5 * (x + a / x)
     return x
 
-def logreg_average(value)
+def logreg_average(value):
     m = len(value)
-    for i in range(len(value))
-        result += value
-    return result = result / m
+    result = 0
+    j = 0
+    for i in range(len(value)):
+        if value[i] is not None:
+            result += value[i]
+            j += 1
+    return result / j
 
-def logreg_standard_deviation()
-    
+def logreg_standard_deviation(value):
+    average = logreg_average(value)
+    result = 0
+    j = 0
+    for i in range(len(value)):
+        if value[i] is not None:
+            result += (value[i] - average) ** 2
+            j += 1
+    return (ft_sqrt(result / j), average)
 
-def logreg_normalized_value()
+def logreg_normalized_value(value):
+    standard_deviation, average = logreg_standard_deviation(value)
+    X = []
+    result = 0
+    for i in range(len(value)):
+        if value[i] is not None:
+            result = (value[i] - average) / standard_deviation
+            X.append(result)
+        else:
+            X.append(None)
+    return (X, standard_deviation, average)
 
 
 def logreg_train(features, personal_info, course_name, subjectChosen):
@@ -55,27 +76,42 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
     count = len(features)
     learning_rate = 0.01
 
-    lenPersonalInfo= len(personal_info)
+    lenPersonalInfo= len(personal_info[2])
+    print(personal_info[0])
     lenSubjectChosen = len(subjectChosen) + 1
     X = []
+    subjectStats = {}
+    valid_indices = []
+    col = []
+    normalized = [[] for _ in range(len(subjectChosen))]
+    for i, col_subject in enumerate(subjectChosen):
+        cols_idx = COLUMN_ORDER[col_subject] - 1
+        col = features[cols_idx]
+        normalized[i], std, avg = logreg_normalized_value(col)
+        subjectStats[col_subject] = {"std": std, "mean": avg}
+
     for idxPersonal in range(lenPersonalInfo):
         x = [1.0]
         has_None = False
-        for idxSubject in subjectChosen:
-            val = features[idxPersonal][COLUMN_ORDER[idxSubject]]
+        for idxSubject in range(len(subjectChosen)):
+            val = normalized[idxSubject][idxPersonal]
             if val is None:
                 has_None = True
                 break
             x.append(val)
         if not has_None:
             X.append(x)
+            valid_indices.append(idxPersonal)
     for house in HOUSE_ORDER:
         y = []
-        for idxPersonal in range(lenPersonalInfo):
-            y.append(1.0 if personal_info[idxPersonal][2] == house else 0.0)
+        for idxPersonal in valid_indices:
+            print(personal_info[0][idxPersonal])
+            y.append(1.0 if personal_info[0][idxPersonal] == house else 0.0)
+            
         theta = [0.0] * lenSubjectChosen
+        print(house, y[:20])
 
-        theta = grad_descent(X, y, theta, 1000, 0.01)
+        theta = grad_descent(X, y, theta, 2000, 0.01)
 
         subjectValue[house]['bias'] = theta[0]
         theta.remove(theta[0])
@@ -84,8 +120,20 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
         
     print(subjectValue)
     
-    # print("Gryffindor theta:", subjectValue["Gryffindor"]);
-    return subjectValue
+    # print("Gryffindor theta:", subjectValue["Gryffindor"])
+    return subjectValue, subjectStats
+
+
+def save_normalization_stats(subjectStats):
+    rows = []
+    for subject, stats in subjectStats.items():
+        rows.append({
+            "Subject": subject,
+            "mean": stats["mean"],
+            "std": stats["std"]
+        })
+    df = pd.DataFrame(rows)
+    df.to_csv("normalization.csv", index=False)
 
 def score_lineaire(student, poid): #formule theta^t * x
     count = len(student)
@@ -116,6 +164,7 @@ def sigmoid(z):
 def grad_descent(X, y, theta , nb_iteration, learning_rate):
     for i in range(nb_iteration):
         gradient = [0.0] * len(theta)
+        print(i)
         for eleve_idx in range(len(X)):
             z = score_lineaire(X[eleve_idx], theta)
             h = sigmoid(z)
@@ -141,22 +190,24 @@ House,Bias,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divinati
 Ravenclaw,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Gryffindor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Slytherin,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
-Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n");
-            return;
+Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n")
+            return
     except Exception as e:
-        os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
+        os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+
+
 
 def updateData(subjectChosen, thetaHouse):
     
-    dataFile = pd.read_csv("db.csv").set_index("House");
+    dataFile = pd.read_csv("db.csv").set_index("House")
     for iHouse in range (len(HOUSE_ORDER)):
-        dataFile.loc[HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[HOUSE_ORDER[iHouse]]["bias"];
+        dataFile.loc[HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[HOUSE_ORDER[iHouse]]["bias"]
         for subject in subjectChosen:
-            # indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0];
-            click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'));
-            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
-    dataFile.to_csv("db.csv");
-            # dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
+            # indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0]
+            click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'))
+            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject]
+    dataFile.to_csv("db.csv")
+            # dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject]
 
 def houseStatInterface():
     result = {
@@ -165,7 +216,7 @@ def houseStatInterface():
     "Gryffindor":  {"index": "Gryffindor", "bias": 0, "value": {}},
     "Hufflepuff":  {"index": "Hufflepuff", "bias": 0, "value": {}}
     }
-    return result;
+    return result
 
 def selectMenu():
     return inquirer.select(
@@ -174,7 +225,7 @@ def selectMenu():
     ).execute()
 
 def selectSubject():
-    chosenSubject = [];
+    chosenSubject = []
     subjectList = ["Arithmancy",
         "Astronomy",
         "Herbology",
@@ -193,21 +244,21 @@ def selectSubject():
         while True:
             choice = getSubject(subjectList)
             if choice == "return":
-                return chosenSubject;
-            subjectList.remove(choice);
-            chosenSubject.append(choice);
-            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'));
+                return chosenSubject
+            subjectList.remove(choice)
+            chosenSubject.append(choice)
+            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'))
         
     except:
-        click.echo(click.style(f"\nForce Quit...", fg='red'));
-        return [];
+        click.echo(click.style(f"\nForce Quit...", fg='red'))
+        return []
 
 
 def getSubject(subjectList):
-    choicesAdd = [];
+    choicesAdd = []
     for subject in  subjectList:
-        choicesAdd.append(subject);
-    choicesAdd.append("return");
+        choicesAdd.append(subject)
+    choicesAdd.append("return")
     return inquirer.select(
         message="\n\nSelect Your Subject ?",
         choices = choicesAdd
@@ -221,39 +272,35 @@ def main():
     if features is None or personal_info is None or course_name is None:
         print("Error")
         exit(1)
-    createDBFile();
-    subjectChosen = [];
+    createDBFile()
+    subjectChosen = []
     try:
-        choice = selectMenu();
+        choice = selectMenu()
     except KeyboardInterrupt:
-        click.echo(click.style(f"\nForce Quit...", fg='red'));
-        return ;
+        click.echo(click.style(f"\nForce Quit...", fg='red'))
+        return 
     if choice == "Subject Choice":
-        subjectChosen = selectSubject();
+        subjectChosen = selectSubject()
     elif choice == "Predefined Subject":
-        subjectChosen = ["Arithmancy",
-        "Astronomy",
-        "Herbology",
-        "Defense Against the Dark Arts",
-        "Divination",
-        "Muggle Studies",
-        "Ancient Runes",
-        "History of Magic",
-        "Transfiguration",
-        "Potions",
-        "Care of Magical Creatures",
-        "Charms",
-        "Flying"]
-        click.echo(click.style(f"\nChosen Subject: {subjectChosen}", fg='green'));
+        subjectChosen = [
+    "Defense Against the Dark Arts",  # Gryffindor
+    "Potions",                       # Slytherin  
+    "Arithmancy",                    # Ravenclaw
+    "Herbology",                     # Hufflepuff
+    "Charms",                        # Gryffindor+
+    "Ancient Runes"                  # Ravenclaw+
+]
+        click.echo(click.style(f"\nChosen Subject: {subjectChosen}", fg='green'))
     elif choice == "Quit":
-        click.echo(click.style(f"\nLeaving....", fg='red'));
-        return;
-    thetaHouse = logreg_train(features, personal_info, course_name, subjectChosen);
-    updateData(subjectChosen, thetaHouse);
-    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
+        click.echo(click.style(f"\nLeaving....", fg='red'))
+        return
+    thetaHouse, subjectStats = logreg_train(features, personal_info, course_name, subjectChosen)
+    updateData(subjectChosen, thetaHouse)
+    save_normalization_stats(subjectStats)
+    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
 
 if __name__ == "__main__":
-        main();
+        main()
 
 
 # TO DO, split les fonctions en plusieures fichiers

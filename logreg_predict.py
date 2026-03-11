@@ -21,10 +21,11 @@ def main(file_path):
     os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
     inputFile = pd.read_csv(file_path)
     dataFile = pd.read_csv("db.csv").set_index("House")
+    normFile = pd.read_csv("normalization.csv").set_index("Subject")
     for i in range(len(inputFile)):
         firstName = inputFile["First Name"].iloc[i]
         lastName = inputFile["Last Name"].iloc[i]
-        houseResult = predictmodel(dataFile, inputFile, i)
+        houseResult = predictmodel(dataFile, inputFile, i, normFile)
         houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
         print(houseResult)
 #        if i == 2:
@@ -32,7 +33,7 @@ def main(file_path):
     return
 
 
-def predictmodel(dataFile, inputFile, indexStudent):
+def predictmodel(dataFile, inputFile, indexStudent, normFile):
     result = houseStatInterface()
     count = 0
     subjectList = ["Arithmancy","Astronomy","Herbology","Defense Against the Dark Arts","Divination","Muggle Studies","Ancient Runes","History of Magic","Transfiguration","Potions","Care of Magical Creatures","Charms","Flying"]
@@ -43,11 +44,14 @@ def predictmodel(dataFile, inputFile, indexStudent):
         for idxHouse in houseList:
             bias = dataFile.loc[idxHouse, 'Bias']
             weight =  dataFile.loc[idxHouse, subject]
-            if weight == 0:
+            if weight == 0.0 or pd.isna(weight):
                 continue
             studentScore = inputFile[subject].iloc[indexStudent]
             if pd.isna(studentScore):
                 continue
+            mean = normFile.loc[subject, "mean"]
+            std  = normFile.loc[subject, "std"]
+            studentScore = (studentScore - mean) / std
             result[idxHouse]["value"] += studentScore * weight
             #click.echo(click.style(f"\nDEBUG MODE: {result[idxHouse]['value']}", fg='cyan'))
     if count != 0:

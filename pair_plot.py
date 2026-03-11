@@ -11,6 +11,20 @@ HOUSE_COLORS = {
 
 HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
+subjectList = ["Arithmancy",
+        "Astronomy",
+        "Herbology",
+        "Defense Against the Dark Arts",
+        "Divination",
+        "Muggle Studies",
+        "Ancient Runes",
+        "History of Magic",
+        "Transfiguration",
+        "Potions",
+        "Care of Magical Creatures",
+        "Charms",
+        "Flying"]
+
 def pair_plot(features, personal_info, course_name):
     if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
@@ -23,6 +37,8 @@ def pair_plot(features, personal_info, course_name):
     for row in range(count):
         for col in range(count):
             ax = axes[row][col]
+            ax.set_xlabel(subjectList[col])
+            ax.set_ylabel(subjectList[row])
             if col > row:
                 ax.set_axis_off()
                 continue

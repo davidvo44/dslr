@@ -23,7 +23,7 @@ describe:
 	$(PYTHON) ./describe/describe.py
 
 histogram:
-	$(PYTHON) histogram.py
+	$(PYTHON) histogram.py 
 
 scatter_plot:
 	$(PYTHON) scatter_plot.py
