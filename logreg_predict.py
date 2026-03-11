@@ -4,7 +4,6 @@ import os,stat
 import click
 import pandas as pd
 import math
-from logreg_train import ft_exp
 
 
 def houseStatInterface():
@@ -43,6 +42,8 @@ def predictmodel(dataFile, inputFile, indexStudent):
         for idxHouse in houseList:
             bias = dataFile.loc[idxHouse, 'Bias']
             weight =  dataFile.loc[idxHouse, subject]
+            # print(type(weight))
+            # print(weight)
             if weight == 0:
                 continue
             studentScore = inputFile[subject].iloc[indexStudent]
@@ -64,8 +65,22 @@ def predictmodel(dataFile, inputFile, indexStudent):
             houseResult = idxHouse
     return houseResult
                 
-                
-            
+              
+       
+def ft_exp(x):
+    if x < -20:
+        return 0
+    if x > 20:
+        x = 20.0
+    i = 1
+    term = 1.0
+    resultat = 1.0
+    while i <= 30:
+        term = term * (x / i)
+        resultat = resultat + term
+        i += 1
+    return resultat
+     
 
 
 def sigmoidFormula(z):
@@ -81,3 +96,4 @@ if __name__ == '__main__':
             main(sys.argv[1])
         else:
             print("Invalid File")
+

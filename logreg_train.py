@@ -22,24 +22,24 @@ COLUMN_ORDER = {
     "Flying": 13
 }
 
-def ft_sqrt(a)
-    if a == 0
+def ft_sqrt(a):
+    if a == 0:
         return 0
     x = a / 2
-    for i in range(6)
+    for i in range(6):
         x = 0.5(x + a/x)
     return x
 
-def logreg_average(value)
+def logreg_average(value):
     m = len(value)
-    for i in range(len(value))
+    for i in range(len(value)):
         result += value
-    return result = result / m
+    return result / m
 
-def logreg_standard_deviation()
+# def logreg_standard_deviation()
     
 
-def logreg_normalized_value()
+# def logreg_normalized_value()
 
 
 def logreg_train(features, personal_info, course_name, subjectChosen):
@@ -134,17 +134,28 @@ def grad_descent(X, y, theta , nb_iteration, learning_rate):
 
 
 def createDBFile():
-    try:
-        with open("db.csv", 'w') as f:
-            f.write("\
+    fileBuffer = "\
 House,Bias,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying\n\
 Ravenclaw,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Gryffindor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Slytherin,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
-Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n");
+Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n"
+    try:
+        with open("db.csv", 'w') as f:
+            f.write(fileBuffer);
             return;
     except Exception as e:
+        print("YOOO");
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
+        try:
+            choice = resetFileChoice();
+        except KeyboardInterrupt:
+            click.echo(click.style(f"\nForce Quit...", fg='red'));
+            return ;
+        if choice == "Yes":
+            with open("db.csv", 'w') as f:
+                f.write(fileBuffer);
+
     
 
 def updateData(subjectChosen, thetaHouse):
@@ -171,6 +182,13 @@ def selectMenu():
         message="\n\nYour choice ?",
         choices=["Subject Choice", "Predefined Subject", "Quit"]
     ).execute()
+
+def resetFileChoice():
+    return inquirer.select(
+        message="\n\nDatabase found, do you want to reset it",
+        choices=["Yes", "No"]
+    ).execute()
+
 
 def selectSubject():
     chosenSubject = [];
@@ -249,10 +267,10 @@ def main():
         return;
     thetaHouse = logreg_train(features, personal_info, course_name, subjectChosen);
     updateData(subjectChosen, thetaHouse);
-    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
 
 if __name__ == "__main__":
         main();
+        os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH);
 
 
 # TO DO, split les fonctions en plusieures fichiers
