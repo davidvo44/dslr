@@ -183,19 +183,29 @@ def grad_descent(X, y, theta , nb_iteration, learning_rate):
 
 
 def createDBFile():
-    try:
-        with open("db.csv", 'w') as f:
-            f.write("\
+    fileBuffer = "\
 House,Bias,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying\n\
 Ravenclaw,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Gryffindor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Slytherin,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
-Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n")
-            return
+Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n"
+    try:
+        with open("db.csv", 'w') as f:
+            f.write(fileBuffer);
+            return;
     except Exception as e:
-        os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+        print("YOOO");
+        os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
+        try:
+            choice = resetFileChoice();
+        except KeyboardInterrupt:
+            click.echo(click.style(f"\nForce Quit...", fg='red'));
+            return ;
+        if choice == "Yes":
+            with open("db.csv", 'w') as f:
+                f.write(fileBuffer);
 
-
+    
 
 def updateData(subjectChosen, thetaHouse):
     
@@ -203,11 +213,9 @@ def updateData(subjectChosen, thetaHouse):
     for iHouse in range (len(HOUSE_ORDER)):
         dataFile.loc[HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[HOUSE_ORDER[iHouse]]["bias"]
         for subject in subjectChosen:
-            # indexHouse =  dataFile[dataFile["House"] == HOUSE_ORDER[iHouse]].index[0]
-            click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'))
-            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject]
-    dataFile.to_csv("db.csv")
-            # dataFile[subject].iloc[indexHouse] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject]
+            # click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'));
+            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
+    dataFile.to_csv("db.csv");
 
 def houseStatInterface():
     result = {
@@ -223,6 +231,13 @@ def selectMenu():
         message="\n\nYour choice ?",
         choices=["Subject Choice", "Predefined Subject", "Quit"]
     ).execute()
+
+def resetFileChoice():
+    return inquirer.select(
+        message="\n\nDatabase found, do you want to reset it",
+        choices=["Yes", "No"]
+    ).execute()
+
 
 def selectSubject():
     chosenSubject = []
@@ -243,11 +258,11 @@ def selectSubject():
     try:
         while True:
             choice = getSubject(subjectList)
-            if choice == "return":
-                return chosenSubject
-            subjectList.remove(choice)
-            chosenSubject.append(choice)
-            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'))
+            if choice == "Done":
+                return chosenSubject;
+            subjectList.remove(choice);
+            chosenSubject.append(choice);
+            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'));
         
     except:
         click.echo(click.style(f"\nForce Quit...", fg='red'))
@@ -257,8 +272,8 @@ def selectSubject():
 def getSubject(subjectList):
     choicesAdd = []
     for subject in  subjectList:
-        choicesAdd.append(subject)
-    choicesAdd.append("return")
+        choicesAdd.append(subject);
+    choicesAdd.append("Done");
     return inquirer.select(
         message="\n\nSelect Your Subject ?",
         choices = choicesAdd
@@ -297,10 +312,10 @@ def main():
     thetaHouse, subjectStats = logreg_train(features, personal_info, course_name, subjectChosen)
     updateData(subjectChosen, thetaHouse)
     save_normalization_stats(subjectStats)
-    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-
+    
 if __name__ == "__main__":
-        main()
+    main()
+    os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
 
 
 # TO DO, split les fonctions en plusieures fichiers
