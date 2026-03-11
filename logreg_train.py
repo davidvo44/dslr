@@ -22,18 +22,37 @@ COLUMN_ORDER = {
     "Flying": 13
 }
 
+def ft_sqrt(a)
+    if a == 0
+        return 0
+    x = a / 2
+    for i in range(6)
+        x = 0.5(x + a/x)
+    return x
+
+def logreg_average(value)
+    m = len(value)
+    for i in range(len(value))
+        result += value
+    return result = result / m
+
+def logreg_standard_deviation()
+    
+
+def logreg_normalized_value()
+
+
 def logreg_train(features, personal_info, course_name, subjectChosen):
     if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
         return None
 
     subjectTheta = {}
-    subjectValue = houseStatInterface();
+    subjectValue = houseStatInterface()
     for subject in subjectChosen:
-        subjectTheta[subject] = 0;
+        subjectTheta[subject] = 0
     
     count = len(features)
-    feat_idx = [1, 4, 7, 9, 2];
     learning_rate = 0.01
 
     lenPersonalInfo= len(personal_info)
@@ -47,26 +66,26 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
             if val is None:
                 has_None = True
                 break
-            x.append(features[idxPersonal][COLUMN_ORDER[idxSubject]])
+            x.append(val)
         if not has_None:
             X.append(x)
     for house in HOUSE_ORDER:
         y = []
         for idxPersonal in range(lenPersonalInfo):
             y.append(1.0 if personal_info[idxPersonal][2] == house else 0.0)
-        theta = [0.0] * lenSubjectChosen;
+        theta = [0.0] * lenSubjectChosen
 
         theta = grad_descent(X, y, theta, 1000, 0.01)
 
-        subjectValue[house]['bias'] = theta[0];
-        theta.remove(theta[0]);
-        theta = dict(zip(subjectChosen, theta));
-        subjectValue[house]['value'] = theta;
+        subjectValue[house]['bias'] = theta[0]
+        theta.remove(theta[0])
+        theta = dict(zip(subjectChosen, theta))
+        subjectValue[house]['value'] = theta
         
-    print(subjectValue);
+    print(subjectValue)
     
     # print("Gryffindor theta:", subjectValue["Gryffindor"]);
-    return subjectValue;
+    return subjectValue
 
 def score_lineaire(student, poid): #formule theta^t * x
     count = len(student)
@@ -211,7 +230,19 @@ def main():
     if choice == "Subject Choice":
         subjectChosen = selectSubject();
     elif choice == "Predefined Subject":
-        subjectChosen = ["Arithmancy", "Astronomy", "Herbology", "Muggle Studies"];
+        subjectChosen = ["Arithmancy",
+        "Astronomy",
+        "Herbology",
+        "Defense Against the Dark Arts",
+        "Divination",
+        "Muggle Studies",
+        "Ancient Runes",
+        "History of Magic",
+        "Transfiguration",
+        "Potions",
+        "Care of Magical Creatures",
+        "Charms",
+        "Flying"]
         click.echo(click.style(f"\nChosen Subject: {subjectChosen}", fg='green'));
     elif choice == "Quit":
         click.echo(click.style(f"\nLeaving....", fg='red'));
