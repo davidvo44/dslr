@@ -1,10 +1,10 @@
 import click
 
 def sheetTemplate4Col(result):
-    Ravenclaw = result['Ravenclaw'];
-    Slytherin = result['Slytherin'];
-    Gryffindor = result['Gryffindor'];
-    Hufflepuff = result['Hufflepuff'];
+    Ravenclaw = result['Ravenclaw']
+    Slytherin = result['Slytherin']
+    Gryffindor = result['Gryffindor']
+    Hufflepuff = result['Hufflepuff']
     click.echo(
         f"        ┃{Ravenclaw['index']:^13}┃{Slytherin['index']:^13}┃{Gryffindor['index']:^13}┃{Hufflepuff['index']:^13}\n"+
         f"┏━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━━┓\n" +
@@ -43,20 +43,20 @@ def sheetTemplate4Col(result):
     )
 
 def sheetTemplate13Col(result):
-    Arithmancy = result['Arithmancy'];
-    Astronomy = result['Astronomy'];
-    Herbology = result['Herbology'];
-    DATDA = result['DATDA'];
-    Divination = result['Divination'];
-    MuggleStudies = result['MuggleStudies'];
-    AncientRunes = result['Ancient Runes'];
-    MagicHistory = result['Magic History'];
-    Transfigurati = result['Transfigurati'];
-    Potions = result['Potions'];
-    CareCreature = result['Care Creature'];
-    print(type(result['Care Creature']["std"]));
-    Charms = result['Charms'];
-    Flying = result['Flying'];
+    Arithmancy = result['Arithmancy']
+    Astronomy = result['Astronomy']
+    Herbology = result['Herbology']
+    DATDA = result['DATDA']
+    Divination = result['Divination']
+    MuggleStudies = result['MuggleStudies']
+    AncientRunes = result['Ancient Runes']
+    MagicHistory = result['Magic History']
+    Transfigurati = result['Transfigurati']
+    Potions = result['Potions']
+    CareCreature = result['Care Creature']
+    print(type(result['Care Creature']["std"]))
+    Charms = result['Charms']
+    Flying = result['Flying']
     click.echo(
         f"        ┃{Arithmancy['index']:^13}┃{Astronomy['index']:^13}┃{Herbology['index']:^13}┃{DATDA['index']:^13}┃{Divination['index']:^13}┃{MuggleStudies['index']:^13}"+
         f"┃{AncientRunes['index']:^13}┃{MagicHistory['index']:^13}┃{Transfigurati['index']:^13}┃{Potions['index']:^13}┃{CareCreature['index']:^13}┃{Charms['index']:^13}┃{Flying['index']:^13}\n"+

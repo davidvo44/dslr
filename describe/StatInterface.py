@@ -5,7 +5,7 @@ def houseStatInterface():
     "Gryffindor":  {"index": "Gryffindor", "count": 0, "mean": 0, "std": 0, "min": 1000000, "25%": 0, "50%": 0, "75%": 0, "max": -1000000},
     "Hufflepuff":  {"index": "Hufflepuff", "count": 0, "mean": 0, "std": 0, "min": 1000000, "25%": 0, "50%": 0, "75%": 0, "max": -1000000},
     }
-    return result;
+    return result
 
 def subjectStatInterface():
     result = {
@@ -23,5 +23,5 @@ def subjectStatInterface():
         "Charms": {"index": "Charms", "count": 0, "mean": 0, "std": 0, "min": 1000000, "25%": 0, "50%": 0, "75%": 0, "max": -1000000},
         "Flying": {"index": "Flying", "count": 0, "mean": 0, "std": 0, "min": 1000000, "25%": 0, "50%": 0, "75%": 0, "max": -1000000},
     }
-    return result;
+    return result
 # Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying

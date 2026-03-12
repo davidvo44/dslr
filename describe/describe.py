@@ -17,12 +17,12 @@ def main():
             elif choice == "Subject Stat":
                 subjectStat()
             elif choice == "Quit":
-                break;
-            time.sleep(1);
+                break
+            time.sleep(1)
     except KeyboardInterrupt:
-        print("\n...Leaving....");
+        print("\n...Leaving....")
     except click.exceptions.Abort:
-        print("\n...Leaving....");
+        print("\n...Leaving....")
 
 def selectMenu():
     return inquirer.select(

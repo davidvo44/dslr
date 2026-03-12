@@ -7,9 +7,11 @@ import stat
 import pandas as pd
 import click
 from alive_progress import alive_bar
+import sys
+from utils import checkFile_csv
 
 
-bar = None;
+bar = None
 
 def start_bar(total):
     global bar
@@ -21,7 +23,7 @@ def update_bar():
     bar()
 
 def logreg_train(features, personal_info, course_name, subjectChosen):
-    ctx = start_bar(100);
+    ctx = start_bar(100)
     if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
         return None
@@ -153,8 +155,7 @@ def updateData(subjectChosen, thetaHouse, subjectStats):
     df.to_csv("datasets/normalization.csv", index=False)
 
 
-def main():
-    file_path = "datasets/dataset_train.csv"
+def main(file_path):
     features, personal_info, course_name = utils.parse_csv(file_path)
     if features is None or personal_info is None or course_name is None:
         print("Error")
@@ -187,5 +188,9 @@ def main():
 
     
 if __name__ == "__main__":
-    main()
-    os.chmod("datasets/db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+    if len(sys.argv) != 2:
+        print("error argument file")
+    else:
+        if (checkFile_csv(sys.argv[1])== True):
+            main(sys.argv[1])
+            os.chmod("datasets/db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)

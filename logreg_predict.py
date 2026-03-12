@@ -5,7 +5,7 @@ import click
 import pandas as pd
 import math
 
-bar = None;
+bar = None
 
 def houseStatInterface():
     result = {
@@ -24,37 +24,22 @@ def main(file_path):
         os.chmod(db_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
     except:
         click.echo(click.style(f"No Database File", fg='red'))
-        return;
+        return
     inputFile = pd.read_csv(file_path)
     dataFile = pd.read_csv(db_path).set_index("House")
     normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
-<<<<<<< HEAD
-    try:
-        for i in range(len(inputFile)):
-            firstName = inputFile["First Name"].iloc[i]
-            lastName = inputFile["Last Name"].iloc[i]
-            houseResult = predictmodel(dataFile, inputFile, i, normFile)
-            houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
-            print(houseResult)
-    except:
-        click.echo(click.style(f"Database empty", fg='red'))
-=======
-    for i in range(len(inputFile)):
-        firstName = inputFile["First Name"].iloc[i]
-        lastName = inputFile["Last Name"].iloc[i]
-        houseResult, result_prob = predictmodel(dataFile, inputFile, i, normFile)
-        houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
     try:
         with open("datasets/houses.csv", 'w') as f:
             f.write("Index,Hogwarts House\n")
             for i in range(len(inputFile)):
+                firstName = inputFile["First Name"].iloc[i]
+                lastName = inputFile["Last Name"].iloc[i]
                 houseResult, prob = predictmodel(dataFile, inputFile, i, normFile)
-                f.write(f"{inputFile['Index'].iloc[i]},{houseResult}\n")
-                print(f"{inputFile['Index'].iloc[i]},{houseResult} ({prob:.1f}%)")
+                houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
+                f.write(f"{houseResult}\n")
+                print(f"{houseResult} ({prob:.1f}%)")
     except Exception as e:
-        print(f"Error writing houses.csv: {e}")
-        return
->>>>>>> newMerge
+        click.echo(click.style(f"Database empty{e}", fg='red'))
     return
 
 
@@ -78,7 +63,6 @@ def predictmodel(dataFile, inputFile, indexStudent, normFile):
             std  = normFile.loc[subject, "std"]
             studentScore = (studentScore - mean) / std
             result[idxHouse]["value"] += studentScore * weight
-            #click.echo(click.style(f"\nDEBUG MODE: {result[idxHouse]['value']}", fg='cyan'))
     if count != 0:
         for idxHouse in houseList:
             bias = dataFile.loc[idxHouse, 'Bias']

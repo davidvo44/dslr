@@ -91,7 +91,7 @@ def parse_csv(filepath):
 
 def checkFile_csv(filepath):
     try:
-        data = pd.read_csv(filepath);
+        data = pd.read_csv(filepath)
     except Exception as e:
         click.echo(click.style(f"Error reading file {filepath} \n  -> {e}", fg='red'))
         return False
@@ -102,5 +102,5 @@ def checkFile_csv(filepath):
             in data.columns and 'History of Magic' in data.columns and 'Transfiguration' in data.columns \
                 and 'Potions' in data.columns and 'Care of Magical Creatures' in data.columns \
                     and 'Charms' in data.columns and 'Flying' in data.columns:
-        return True;
-    return False;
+        return True
+    return False

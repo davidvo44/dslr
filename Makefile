@@ -20,6 +20,7 @@ clean:
 	rm -rf datasets/normalization.csv
 	rm -rf pair_plots
 	rm -rf scatter_plot
+	rm -rf datasets/houses.csv
 
 re : clean all
 
@@ -36,10 +37,10 @@ pair_plot:
 	$(PYTHON) -m pair_plot
 
 logreg_train:
-	$(PYTHON) -m logregTrain.logreg_train
+	$(PYTHON) -m logregTrain.logreg_train datasets/dataset_train.csv
 
 logreg_predict:
 	$(PYTHON) -m logreg_predict datasets/dataset_test.csv
 
 stochastic_train:
-	$(PYTHON) -m stochastic_train
+	$(PYTHON) -m stochastic_train datasets/dataset_train.csv
