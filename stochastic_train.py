@@ -1,13 +1,13 @@
 
 import utils
-from . import normalization
-from . import menu_train
+import logregTrain.normalization as normalization
+import logregTrain.menu_train as menu_train
 import os
 import stat
 import pandas as pd
 import click
 from alive_progress import alive_bar
-
+import random
 
 bar = None;
 
@@ -75,7 +75,7 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
             
         theta = [0.0] * lenSubjectChosen
 
-        theta = grad_descent(X, y, theta, 2000, 0.01)
+        theta = grad_descent(X, y, theta, 100000, 0.01)
 
         subjectValue[house]['bias'] = theta[0]
         subjectValue[house]['value'] = dict(zip(subjectChosen, theta[1:]))
@@ -114,23 +114,16 @@ def sigmoid(z):
 
 def grad_descent(X, y, theta , nb_iteration, learning_rate):
     for i in range(nb_iteration):
-        gradient = [0.0] * len(theta)
-        for eleve_idx in range(len(X)):
-            z = score_lineaire(X[eleve_idx], theta)
-            h = sigmoid(z)
-            e = h - y[eleve_idx]
+        student_idx = random.randint(0, len(X)-1)
+        z = score_lineaire(X[student_idx], theta)
+        h = sigmoid(z)
+        e = h - y[student_idx]
 
-            for para_idx in range(len(theta)):
-                gradient[para_idx] += e * X[eleve_idx][para_idx]
-        
         for para_idx in range(len(theta)):
-            gradient[para_idx] /= len(X)
-
-        for para_idx in range(len(theta)): 
-            theta[para_idx] -= learning_rate * gradient[para_idx]
-        if i % 80 == 0:
-            update_bar()
-    return theta
+            theta[para_idx] -= learning_rate * e * X[student_idx][para_idx]
+        if i % 4000 == 0:
+            update_bar();
+    return theta;
 
 
 def updateData(subjectChosen, thetaHouse, subjectStats):
@@ -183,6 +176,8 @@ def main():
         return
     thetaHouse, subjectStats = logreg_train(features, personal_info, course_name, subjectChosen)
     updateData(subjectChosen, thetaHouse, subjectStats)
+    click.echo(click.style(f"\nDone\n", fg='green'))
+
     
 if __name__ == "__main__":
     main()

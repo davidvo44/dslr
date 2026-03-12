@@ -39,3 +39,6 @@ logreg_train:
 
 logreg_predict:
 	$(PYTHON) logreg_predict.py dataset_test.csv
+
+stochastic_train:
+	$(PYTHON) stochastic_train.py

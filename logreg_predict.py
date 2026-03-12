@@ -4,7 +4,6 @@ import os,stat
 import click
 import pandas as pd
 import math
-import time
 
 bar = None;
 
