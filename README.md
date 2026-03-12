@@ -41,7 +41,54 @@ Ou via le Makefile :
 ```bash
 make histogram
 ```
+---
 
+# Describe
+
+describe.py génère un tableau de statistiques résumant les notes des élèves de Hogwarts, organisées soit par maison, soit par matière. L’analyse s’appuie sur plusieurs indicateurs clés pour décrire la distribution des notes:  
+
+- **Count** : Nombre d'élèves/notes  
+- **Mean** : Moyenne des notes  
+- **Std** : Écart-type  
+- **Min / Max** : Note minimum / maximum  
+- **25%, 50%, 75%** : Quartiles (notes aux pourcentages indiqués)
+
+#### Deux choix de tableau disponible: 
+- La premiere permet de comparer les stats des notes en fonctions de la maison
+- Le second met en comparaison les stats en fonctions des matieres.
+
+### Observation du tableau de maison
+
+#### Taille des échantillons (Count)
+
+- **Hufflepuff** a le plus grand nombre d’élèves.  
+- **Slytherin** est le plus petit échantillon, donc ses statistiques peuvent être légèrement moins stables.
+
+#### Moyenne (Mean)
+
+- En moyenne, les valeurs de **Hufflepuff** sont légèrement plus grandes que celles des autres maisons.  
+- Les moyennes des autres maisons sont relativement proches (~3800–3880).
+
+#### Dispersion (Std)
+
+- **Ravenclaw** a la plus grande dispersion, donc les notes sont très écartées autour de la moyenne.  
+- **Hufflepuff** et **Gryffindor** sont plus concentrées.
+
+#### Étendue des notes (Min / Max)
+
+- **Ravenclaw** présente des valeurs négatives extrêmes, ce qui explique l’écart-type élevé.  
+- **Hufflepuff** et **Slytherin** ont des valeurs minimales proches de zéro → les scores négatifs sont rares.  
+- **Gryffindor** a une étendue plus petite.
+
+
+### Conclusion
+
+- **Hufflepuff** : moyenne la plus élevée, distribution concentrée, valeurs min > 0 → élèves avec scores plutôt élevés et homogènes.  
+- **Ravenclaw** : grande variabilité, valeurs négatives → quelques élèves très faibles et quelques très forts.  
+- **Slytherin** : moyenne faible, mais étendue grande, distribution centrée.  
+- **Gryffindor** : moyenne intermédiaire, peu de dispersion → valeurs globalement stables.
+
+---
 # pair_plot
 
 `pair_plot.py` génère une scatter plot matrix (pair plot) du dataset d'entraînement.
