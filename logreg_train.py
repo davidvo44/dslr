@@ -191,19 +191,19 @@ Slytherin,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n\
 Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n"
     try:
         with open("db.csv", 'w') as f:
-            f.write(fileBuffer);
-            return;
+            f.write(fileBuffer)
+            return
     except Exception as e:
-        print("YOOO");
-        os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO);
+        print("YOOO")
+        os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
         try:
-            choice = resetFileChoice();
+            choice = resetFileChoice()
         except KeyboardInterrupt:
-            click.echo(click.style(f"\nForce Quit...", fg='red'));
-            return ;
+            click.echo(click.style(f"\nForce Quit...", fg='red'))
+            return 
         if choice == "Yes":
             with open("db.csv", 'w') as f:
-                f.write(fileBuffer);
+                f.write(fileBuffer)
 
     
 
@@ -213,9 +213,9 @@ def updateData(subjectChosen, thetaHouse):
     for iHouse in range (len(HOUSE_ORDER)):
         dataFile.loc[HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[HOUSE_ORDER[iHouse]]["bias"]
         for subject in subjectChosen:
-            # click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'));
-            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject];
-    dataFile.to_csv("db.csv");
+            # click.echo(click.style(f"\nDEBUG MODE: {HOUSE_ORDER[iHouse], subject, thetaHouse[HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'))
+            dataFile.loc[HOUSE_ORDER[iHouse], subject] = thetaHouse[HOUSE_ORDER[iHouse]]["value"][subject]
+    dataFile.to_csv("db.csv")
 
 def houseStatInterface():
     result = {
@@ -259,10 +259,10 @@ def selectSubject():
         while True:
             choice = getSubject(subjectList)
             if choice == "Done":
-                return chosenSubject;
-            subjectList.remove(choice);
-            chosenSubject.append(choice);
-            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'));
+                return chosenSubject
+            subjectList.remove(choice)
+            chosenSubject.append(choice)
+            click.echo(click.style(f"\nChosen Subject: {chosenSubject}", fg='green'))
         
     except:
         click.echo(click.style(f"\nForce Quit...", fg='red'))
@@ -272,8 +272,8 @@ def selectSubject():
 def getSubject(subjectList):
     choicesAdd = []
     for subject in  subjectList:
-        choicesAdd.append(subject);
-    choicesAdd.append("Done");
+        choicesAdd.append(subject)
+    choicesAdd.append("Done")
     return inquirer.select(
         message="\n\nSelect Your Subject ?",
         choices = choicesAdd
