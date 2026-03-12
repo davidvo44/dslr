@@ -62,7 +62,7 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
             
         theta = [0.0] * lenSubjectChosen
 
-        theta = grad_descent(X, y, theta, 20, 0.01)
+        theta = grad_descent(X, y, theta, 2000, 0.01)
 
         subjectValue[house]['bias'] = theta[0]
         subjectValue[house]['value'] = dict(zip(subjectChosen, theta[1:]))

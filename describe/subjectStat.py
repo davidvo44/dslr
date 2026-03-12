@@ -23,7 +23,7 @@ def subjectStat():
         "Flying": [],
     }
     try:
-        data = pd.read_csv("dataset_train.csv");
+        data = pd.read_csv("datasets/dataset_train.csv");
 
         for i in range(len(data)):
             subjectSearch(data, i, subjectList, result);

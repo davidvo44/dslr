@@ -38,4 +38,4 @@ logreg_train:
 	$(PYTHON) -m logregTrain.logreg_train
 
 logreg_predict:
-	$(PYTHON) logreg_predict.py dataset_test.csv
+	$(PYTHON) logreg_predict.py datasets/dataset_test.csv

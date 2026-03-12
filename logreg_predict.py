@@ -32,11 +32,18 @@ def main(file_path):
     for i in range(len(inputFile)):
         firstName = inputFile["First Name"].iloc[i]
         lastName = inputFile["Last Name"].iloc[i]
-        houseResult = predictmodel(dataFile, inputFile, i, normFile)
+        houseResult, result_prob = predictmodel(dataFile, inputFile, i, normFile)
         houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
-        print(houseResult)
-#        if i == 2:
-#           return
+    try:
+        with open("datasets/houses.csv", 'w') as f:
+            f.write("Index,Hogwarts House\n")
+            for i in range(len(inputFile)):
+                houseResult, prob = predictmodel(dataFile, inputFile, i, normFile)
+                f.write(f"{inputFile['Index'].iloc[i]},{houseResult}\n")
+                print(f"{inputFile['Index'].iloc[i]},{houseResult} ({prob:.1f}%)")
+    except Exception as e:
+        print(f"Error writing houses.csv: {e}")
+        return
     return
 
 
@@ -45,7 +52,7 @@ def predictmodel(dataFile, inputFile, indexStudent, normFile):
     count = 0
     subjectList = ["Arithmancy","Astronomy","Herbology","Defense Against the Dark Arts","Divination","Muggle Studies","Ancient Runes","History of Magic","Transfiguration","Potions","Care of Magical Creatures","Charms","Flying"]
     houseList = ["Ravenclaw", "Gryffindor", "Slytherin", "Hufflepuff"]
-    
+    probs = {}
     for subject in  subjectList:
         count += 1
         for idxHouse in houseList:
@@ -68,11 +75,12 @@ def predictmodel(dataFile, inputFile, indexStudent, normFile):
                 continue
             result[idxHouse]["value"] += bias
             result[idxHouse]["value"] = sigmoidFormula(result[idxHouse]["value"])
+            probs[idxHouse] = result[idxHouse]["value"] * 100
     houseResult = "Ravenclaw"
     for idxHouse in houseList:
         if result[idxHouse]["value"] > result[houseResult]["value"]:
             houseResult = idxHouse
-    return houseResult
+    return houseResult, probs[houseResult]
                 
               
        
@@ -97,9 +105,7 @@ def sigmoidFormula(z):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("error argument file")
-    else:
-        file_path = "datasets/datasedsts_test.csv"
-        if (checkFile_csv(sys.argv[1])== True):
-            main(sys.argv[1])
+    if len(sys.argv) != 2 or not checkFile_csv(sys.argv[1]):
+        print("Usage: python3 logreg_predict.py dataset_test.csv")
+    
+    main(sys.argv[1])
