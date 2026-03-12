@@ -28,14 +28,15 @@ def main(file_path):
     inputFile = pd.read_csv(file_path)
     dataFile = pd.read_csv(db_path).set_index("House")
     normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
-    for i in range(len(inputFile)):
-        firstName = inputFile["First Name"].iloc[i]
-        lastName = inputFile["Last Name"].iloc[i]
-        houseResult = predictmodel(dataFile, inputFile, i, normFile)
-        houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
-        print(houseResult)
-#        if i == 2:
-#           return
+    try:
+        for i in range(len(inputFile)):
+            firstName = inputFile["First Name"].iloc[i]
+            lastName = inputFile["Last Name"].iloc[i]
+            houseResult = predictmodel(dataFile, inputFile, i, normFile)
+            houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
+            print(houseResult)
+    except:
+        click.echo(click.style(f"Database empty", fg='red'))
     return
 
 
@@ -99,6 +100,5 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("error argument file")
     else:
-        file_path = "datasets/datasedsts_test.csv"
         if (checkFile_csv(sys.argv[1])== True):
             main(sys.argv[1])

@@ -6,16 +6,12 @@ import stat
 def createDBFile():
     db_path = "datasets/db.csv"
     fileBuffer = """House,Bias,Arithmancy,Astronomy,Herbology,"Defense Against the Dark Arts",Divination,"Muggle Studies","Ancient Runes","History of Magic",Transfiguration,Potions,"Care of Magical Creatures",Charms,Flying
-    Ravenclaw,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-    Gryffindor,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-    Slytherin,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-    Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0"""
+"""
     try:
         with open(db_path, 'w') as f:
             f.write(fileBuffer)
             return
     except Exception as e:
-        print("YOOO")
         os.chmod(db_path, stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
         try:
             choice = resetFileChoice()

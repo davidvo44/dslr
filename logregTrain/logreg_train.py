@@ -183,6 +183,8 @@ def main():
         return
     thetaHouse, subjectStats = logreg_train(features, personal_info, course_name, subjectChosen)
     updateData(subjectChosen, thetaHouse, subjectStats)
+    click.echo(click.style(f"\nDone\n", fg='green'))
+
     
 if __name__ == "__main__":
     main()

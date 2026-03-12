@@ -2,13 +2,14 @@
 .PHONY: describe histogram scatter_plot pair_plot logreg_train logreg_predict all clean run re
 
 VENV = .venv
-PYTHON = $(VENV)/bin/python3
+PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
 
-all: $(VENV)/bin/activate
+all: $(VENV)/bin/python
 
-$(VENV)/bin/activate: requirements.txt
+$(VENV)/bin/python: requirements.txt
 	python3 -m venv $(VENV)
+	$(PIP) install --upgrade pip
 	$(PIP) install -r requirements.txt
 
 clean:
@@ -26,19 +27,19 @@ describe:
 	$(PYTHON) -m describe.describe
 
 histogram:
-	$(PYTHON) histogram.py 
+	$(PYTHON) -m histogram 
 
 scatter_plot:
-	$(PYTHON) scatter_plot.py
+	$(PYTHON) -m scatter_plot
 
 pair_plot:
-	$(PYTHON) pair_plot.py
+	$(PYTHON) -m pair_plot
 
 logreg_train:
 	$(PYTHON) -m logregTrain.logreg_train
 
 logreg_predict:
-	$(PYTHON) logreg_predict.py dataset_test.csv
+	$(PYTHON) -m logreg_predict dataset_test.csv
 
 stochastic_train:
-	$(PYTHON) stochastic_train.py
+	$(PYTHON) -m stochastic_train
