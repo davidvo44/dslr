@@ -3,9 +3,9 @@ import time
 from click.testing import CliRunner
 from InquirerPy import inquirer
 import pandas as pd
-from houseStat import houseStat
-from subjectStat import subjectStat
-# from utils import parse_csv
+from .houseStat import houseStat
+from .subjectStat import subjectStat
+from utils import parse_csv
 @click.command()
 
 def main():

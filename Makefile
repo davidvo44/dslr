@@ -20,7 +20,7 @@ clean:
 re : clean all
 
 describe:
-	$(PYTHON) ./describe/describe.py
+	$(PYTHON) -m describe.describe
 
 histogram:
 	$(PYTHON) histogram.py 

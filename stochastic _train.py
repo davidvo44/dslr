@@ -3,7 +3,6 @@ import os,stat
 import pandas as pd
 from InquirerPy import inquirer
 import click
-from alive_progress import alive_bar
 
 
 HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
@@ -22,17 +21,6 @@ COLUMN_ORDER = {
     "Charms": 12,
     "Flying": 13
 }
-
-bar = None;
-
-def start_bar(total):
-    global bar
-    ctx = alive_bar(total)
-    bar = ctx.__enter__()
-    return ctx
-
-def update_bar():
-    bar()
 
 def ft_sqrt(a):
     if a == 0:
@@ -80,16 +68,16 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
         print("Error: Failed to load data")
         return None
 
-    subjectTheta = {}
+    # subjectTheta = {}
     subjectValue = houseStatInterface()
-    for subject in subjectChosen:
-        subjectTheta[subject] = 0
+    # for subject in subjectChosen:
+    #     subjectTheta[subject] = 0
     
     count = len(features)
     learning_rate = 0.01
 
     lenPersonalInfo= len(personal_info[2])
-    # print(personal_info[0])
+    print(personal_info[0])
     lenSubjectChosen = len(subjectChosen) + 1
     X = []
     subjectStats = {}
@@ -117,11 +105,11 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
     for house in HOUSE_ORDER:
         y = []
         for idxPersonal in valid_indices:
-            # print(personal_info[0][idxPersonal])
+            print(personal_info[0][idxPersonal])
             y.append(1.0 if personal_info[0][idxPersonal] == house else 0.0)
             
         theta = [0.0] * lenSubjectChosen
-        # print(house, y[:20])
+        print(house, y[:20])
 
         theta = grad_descent(X, y, theta, 2000, 0.01)
 
@@ -130,7 +118,7 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
         theta = dict(zip(subjectChosen, theta))
         subjectValue[house]['value'] = theta
         
-    # print(subjectValue)
+    print(subjectValue)
     
     # print("Gryffindor theta:", subjectValue["Gryffindor"])
     return subjectValue, subjectStats
@@ -189,8 +177,7 @@ def grad_descent(X, y, theta , nb_iteration, learning_rate):
 
         for para_idx in range(len(theta)): 
             theta[para_idx] -= learning_rate * gradient[para_idx]
-        if i % 80 == 0:
-            update_bar()
+    
     return theta
 
 
@@ -206,6 +193,7 @@ Hufflepuff,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0\n"
             f.write(fileBuffer)
             return
     except Exception as e:
+        print("YOOO")
         os.chmod("db.csv", stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
         try:
             choice = resetFileChoice()
@@ -320,10 +308,8 @@ def main():
     elif choice == "Quit":
         click.echo(click.style(f"\nLeaving....", fg='red'))
         return
-    ctx = start_bar(100);
     thetaHouse, subjectStats = logreg_train(features, personal_info, course_name, subjectChosen)
     updateData(subjectChosen, thetaHouse)
-    ctx.__exit__(None, None, None)
     save_normalization_stats(subjectStats)
     
 if __name__ == "__main__":
