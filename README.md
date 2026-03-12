@@ -89,6 +89,7 @@ describe.py génère un tableau de statistiques résumant les notes des élèves
 - **Gryffindor** : moyenne intermédiaire, peu de dispersion → valeurs globalement stables.
 
 ---
+
 # pair_plot
 
 `pair_plot.py` génère une scatter plot matrix (pair plot) du dataset d'entraînement.
@@ -149,7 +150,4 @@ https://mrmint.fr/gradient-descent-algorithm
 https://www.geeksforgeeks.org/machine-learning/derivative-of-the-sigmoid-function/
 
 https://mrmint.fr/logistic-regression-machine-learning-introduction-simple
-
-
-
 

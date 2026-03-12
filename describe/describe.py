@@ -16,8 +16,6 @@ def main():
                 houseStat()
             elif choice == "Subject Stat":
                 subjectStat()
-            # elif choice == "Graph":
-            #     createGraph()
             elif choice == "Quit":
                 break;
             time.sleep(1);
@@ -29,7 +27,7 @@ def main():
 def selectMenu():
     return inquirer.select(
         message="\n\nYour choice ?",
-        choices=["House Stat", "Subject Stat", "Personal Info Stat", "Quit"]
+        choices=["House Stat", "Subject Stat", "Quit"]
     ).execute()
 
 if __name__ == "__main__":
