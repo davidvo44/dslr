@@ -39,7 +39,7 @@ logreg_train:
 	$(PYTHON) -m logregTrain.logreg_train
 
 logreg_predict:
-	$(PYTHON) -m logreg_predict dataset_test.csv
+	$(PYTHON) -m logreg_predict datasets/dataset_test.csv
 
 stochastic_train:
 	$(PYTHON) -m stochastic_train

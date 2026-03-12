@@ -28,6 +28,7 @@ def main(file_path):
     inputFile = pd.read_csv(file_path)
     dataFile = pd.read_csv(db_path).set_index("House")
     normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
+<<<<<<< HEAD
     try:
         for i in range(len(inputFile)):
             firstName = inputFile["First Name"].iloc[i]
@@ -37,6 +38,23 @@ def main(file_path):
             print(houseResult)
     except:
         click.echo(click.style(f"Database empty", fg='red'))
+=======
+    for i in range(len(inputFile)):
+        firstName = inputFile["First Name"].iloc[i]
+        lastName = inputFile["Last Name"].iloc[i]
+        houseResult, result_prob = predictmodel(dataFile, inputFile, i, normFile)
+        houseResult =  str(inputFile["Index"].iloc[i]) + "," + houseResult
+    try:
+        with open("datasets/houses.csv", 'w') as f:
+            f.write("Index,Hogwarts House\n")
+            for i in range(len(inputFile)):
+                houseResult, prob = predictmodel(dataFile, inputFile, i, normFile)
+                f.write(f"{inputFile['Index'].iloc[i]},{houseResult}\n")
+                print(f"{inputFile['Index'].iloc[i]},{houseResult} ({prob:.1f}%)")
+    except Exception as e:
+        print(f"Error writing houses.csv: {e}")
+        return
+>>>>>>> newMerge
     return
 
 
@@ -45,7 +63,7 @@ def predictmodel(dataFile, inputFile, indexStudent, normFile):
     count = 0
     subjectList = ["Arithmancy","Astronomy","Herbology","Defense Against the Dark Arts","Divination","Muggle Studies","Ancient Runes","History of Magic","Transfiguration","Potions","Care of Magical Creatures","Charms","Flying"]
     houseList = ["Ravenclaw", "Gryffindor", "Slytherin", "Hufflepuff"]
-    
+    probs = {}
     for subject in  subjectList:
         count += 1
         for idxHouse in houseList:
@@ -68,11 +86,12 @@ def predictmodel(dataFile, inputFile, indexStudent, normFile):
                 continue
             result[idxHouse]["value"] += bias
             result[idxHouse]["value"] = sigmoidFormula(result[idxHouse]["value"])
+            probs[idxHouse] = result[idxHouse]["value"] * 100
     houseResult = "Ravenclaw"
     for idxHouse in houseList:
         if result[idxHouse]["value"] > result[houseResult]["value"]:
             houseResult = idxHouse
-    return houseResult
+    return houseResult, probs[houseResult]
                 
               
        
