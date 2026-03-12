@@ -164,7 +164,6 @@ def sigmoid(z):
 def grad_descent(X, y, theta , nb_iteration, learning_rate):
     for i in range(nb_iteration):
         gradient = [0.0] * len(theta)
-        print(i)
         for eleve_idx in range(len(X)):
             z = score_lineaire(X[eleve_idx], theta)
             h = sigmoid(z)
