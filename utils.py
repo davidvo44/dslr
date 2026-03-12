@@ -1,6 +1,46 @@
 from pyexpat import features
 import pandas as pd
 
+HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+
+COLUMN_ORDER = {
+        "Arithmancy": 1,
+        "Astronomy": 2,
+        "Herbology": 3,
+        "Defense Against the Dark Arts": 4,
+        "Divination": 5,
+        "Muggle Studies": 6,
+        "Ancient Runes": 7,
+        "History of Magic": 8,
+        "Transfiguration": 9,
+        "Potions": 10,
+        "Care of Magical Creatures": 11,
+        "Charms": 12,
+        "Flying": 13
+    }
+
+HOUSE_COLORS = {
+        "Gryffindor": "red",
+        "Hufflepuff": "brown",
+        "Ravenclaw": "yellow",
+        "Slytherin": "green",
+    }
+
+subjectList = [
+        "Arithmancy",
+        "Astronomy",
+        "Herbology",
+        "Defense Against the Dark Arts",
+        "Divination",
+        "Muggle Studies",
+        "Ancient Runes",
+        "History of Magic",
+        "Transfiguration",
+        "Potions",
+        "Care of Magical Creatures",
+        "Charms",
+        "Flying"
+    ]
 
 def open_csv(filename):
     try:
@@ -12,6 +52,14 @@ def open_csv(filename):
     except Exception as e:
         print(f"Error reading file {filename}: {e}")
         return None
+
+def ft_sqrt(a):
+    if a == 0:
+        return 0
+    x = a / 2
+    for i in range(6):
+        x = 0.5 * (x + a / x)
+    return x
 
 def parse_csv(filepath):
     data = open_csv(filepath)

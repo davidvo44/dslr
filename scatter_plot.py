@@ -2,15 +2,6 @@ import utils
 import matplotlib.pyplot as plt
 import os
 
-HOUSE_COLORS = {
-    "Gryffindor": "red",
-    "Hufflepuff": "blue",
-    "Ravenclaw": "purple",
-    "Slytherin": "green",
-    }
-
-HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
-
 def scatter_plot(features, personal_info, course_name):
     if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
@@ -31,19 +22,19 @@ def scatter_plot(features, personal_info, course_name):
                 lenn = len_y
             else:
                 lenn = len_x
-            all_value_x = {value: [] for value in HOUSE_ORDER}
-            all_value_y = {value: [] for value in HOUSE_ORDER}
+            all_value_x = {value: [] for value in utils.HOUSE_ORDER}
+            all_value_y = {value: [] for value in utils.HOUSE_ORDER}
             for j in range(lenn):
                 if features_data_x[j] is None or features_data_y[j] is None:
                     continue
-                if house_personal[j] not in HOUSE_ORDER:
+                if house_personal[j] not in utils.HOUSE_ORDER:
                     continue
                 house = house_personal[j]
                 all_value_x[house].append(features_data_x[j])
                 all_value_y[house].append(features_data_y[j])
             plt.figure(figsize=(10, 6))
-            for house in HOUSE_ORDER:
-                plt.scatter(all_value_x[house], all_value_y[house], color=HOUSE_COLORS[house], label=house)
+            for house in utils.HOUSE_ORDER:
+                plt.scatter(all_value_x[house], all_value_y[house], color=utils.HOUSE_COLORS[house], label=house)
             plt.legend()
             plt.title(f'Scatter plot of {course_name[i]} and {course_name[y]}')
             plt.xlabel(course_name[i])
