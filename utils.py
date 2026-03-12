@@ -1,5 +1,6 @@
 from pyexpat import features
 import pandas as pd
+import click
 
 HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
@@ -41,6 +42,7 @@ subjectList = [
         "Charms",
         "Flying"
     ]
+
 
 def open_csv(filename):
     try:
@@ -91,7 +93,7 @@ def checkFile_csv(filepath):
     try:
         data = pd.read_csv(filepath);
     except Exception as e:
-        print(f"Error reading file {filepath}: {e}")
+        click.echo(click.style(f"Error reading file {filepath} \n  -> {e}", fg='red'))
         return False
     if 'Hogwarts House' in data.columns and 'First Name' in data.columns and 'Last Name' in data.columns and \
         'Birthday' in data.columns and 'Best Hand' in data.columns and 'Arithmancy' in data.columns and \

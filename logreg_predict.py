@@ -4,7 +4,9 @@ import os,stat
 import click
 import pandas as pd
 import math
+import time
 
+bar = None;
 
 def houseStatInterface():
     result = {
@@ -16,9 +18,14 @@ def houseStatInterface():
     return result
 
 
+
 def main(file_path):
     db_path = "datasets/db.csv"
-    os.chmod(db_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+    try:
+        os.chmod(db_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+    except:
+        click.echo(click.style(f"No Database File", fg='red'))
+        return;
     inputFile = pd.read_csv(file_path)
     dataFile = pd.read_csv(db_path).set_index("House")
     normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
@@ -93,9 +100,6 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("error argument file")
     else:
-        file_path = "datasets/dataset_test.csv"
+        file_path = "datasets/datasedsts_test.csv"
         if (checkFile_csv(sys.argv[1])== True):
             main(sys.argv[1])
-        else:
-            print("Invalid File")
-
