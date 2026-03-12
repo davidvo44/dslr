@@ -20,14 +20,15 @@ def houseStatInterface():
 
 
 def main(file_path):
+    db_path = "datasets/db.csv"
     try:
-        os.chmod("db.csv", stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+        os.chmod(db_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
     except:
         click.echo(click.style(f"No Database File", fg='red'))
         return;
     inputFile = pd.read_csv(file_path)
-    dataFile = pd.read_csv("db.csv").set_index("House")
-    normFile = pd.read_csv("normalization.csv").set_index("Subject")
+    dataFile = pd.read_csv(db_path).set_index("House")
+    normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
     for i in range(len(inputFile)):
         firstName = inputFile["First Name"].iloc[i]
         lastName = inputFile["Last Name"].iloc[i]
