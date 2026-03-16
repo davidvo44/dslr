@@ -19,22 +19,22 @@ clean:
 	rm -rf datasets/db.csv
 	rm -rf datasets/normalization.csv
 	rm -rf pair_plots
-	rm -rf scatter_plot
+	rm -rf scatter_plots
 	rm -rf datasets/houses.csv
 
 re : clean all
 
 describe:
-	$(PYTHON) -m describe.describe
+	$(PYTHON) -m describe.describe datasets/dataset_train.csv
 
 histogram:
-	$(PYTHON) -m histogram 
+	$(PYTHON) -m histogram datasets/dataset_train.csv
 
 scatter_plot:
-	$(PYTHON) -m scatter_plot
+	$(PYTHON) -m scatter_plot datasets/dataset_train.csv
 
 pair_plot:
-	$(PYTHON) -m pair_plot
+	$(PYTHON) -m pair_plot datasets/dataset_train.csv
 
 logreg_train:
 	$(PYTHON) -m logregTrain.logreg_train datasets/dataset_train.csv

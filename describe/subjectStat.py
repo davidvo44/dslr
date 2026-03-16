@@ -5,7 +5,7 @@ from .sheetTemplate import sheetTemplate13Col
 import click
 import math
 
-def subjectStat():
+def subjectStat(dataset_path):
     result = subjectStatInterface()
     subjectList = {
         "Arithmancy": [],
@@ -23,7 +23,7 @@ def subjectStat():
         "Flying": [],
     }
     try:
-        data = pd.read_csv("datasets/dataset_train.csv")
+        data = pd.read_csv(dataset_path)
 
         for i in range(len(data)):
             subjectSearch(data, i, subjectList, result)
@@ -72,31 +72,31 @@ def subjectSearch(data, index, subjectList, result):
 
 def subjectStd(data, index, result):
     if pd.notna(data["Arithmancy"].iloc[index]):
-        result["Arithmancy"]["std"] = pow(abs(data["Arithmancy"].iloc[index] - result["Arithmancy"]["mean"]), 2)
+        result["Arithmancy"]["std"] += pow(abs(data["Arithmancy"].iloc[index] - result["Arithmancy"]["mean"]), 2)
     if pd.notna(data["Astronomy"].iloc[index]):
-        result["Astronomy"]["std"] = pow(abs(data["Astronomy"].iloc[index] - result["Astronomy"]["mean"]), 2)
+        result["Astronomy"]["std"] += pow(abs(data["Astronomy"].iloc[index] - result["Astronomy"]["mean"]), 2)
     if pd.notna(data["Herbology"].iloc[index]):
-        result["Herbology"]["std"] = pow(abs(data["Herbology"].iloc[index] - result["Herbology"]["mean"]), 2)
+        result["Herbology"]["std"] += pow(abs(data["Herbology"].iloc[index] - result["Herbology"]["mean"]), 2)
     if pd.notna(data["Defense Against the Dark Arts"].iloc[index]):
-        result["DATDA"]["std"] = pow(abs(data["Defense Against the Dark Arts"].iloc[index] - result["DATDA"]["mean"]), 2)
+        result["DATDA"]["std"] += pow(abs(data["Defense Against the Dark Arts"].iloc[index] - result["DATDA"]["mean"]), 2)
     if pd.notna(data["Divination"].iloc[index]):
-        result["Divination"]["std"] = pow(abs(data["Divination"].iloc[index] - result["Divination"]["mean"]), 2)
+        result["Divination"]["std"] += pow(abs(data["Divination"].iloc[index] - result["Divination"]["mean"]), 2)
     if pd.notna(data["Muggle Studies"].iloc[index]):
-        result["MuggleStudies"]["std"] = pow(abs(data["Muggle Studies"].iloc[index] - result["MuggleStudies"]["mean"]), 2)
+        result["MuggleStudies"]["std"] += pow(abs(data["Muggle Studies"].iloc[index] - result["MuggleStudies"]["mean"]), 2)
     if pd.notna(data["Ancient Runes"].iloc[index]):
-        result["Ancient Runes"]["std"] = pow(abs(data["Ancient Runes"].iloc[index] - result["Ancient Runes"]["mean"]), 2)
+        result["Ancient Runes"]["std"] += pow(abs(data["Ancient Runes"].iloc[index] - result["Ancient Runes"]["mean"]), 2)
     if pd.notna(data["History of Magic"].iloc[index]):
-        result["Magic History"]["std"] = pow(abs(data["History of Magic"].iloc[index] - result["Magic History"]["mean"]), 2)
+        result["Magic History"]["std"] += pow(abs(data["History of Magic"].iloc[index] - result["Magic History"]["mean"]), 2)
     if pd.notna(data["Transfiguration"].iloc[index]):
-        result["Transfigurati"]["std"] = pow(abs(data["Transfiguration"].iloc[index] - result["Transfigurati"]["mean"]), 2)
+        result["Transfigurati"]["std"] += pow(abs(data["Transfiguration"].iloc[index] - result["Transfigurati"]["mean"]), 2)
     if pd.notna(data["Potions"].iloc[index]):
-        result["Potions"]["std"] = pow(abs(data["Potions"].iloc[index] - result["Potions"]["mean"]), 2)
+        result["Potions"]["std"] += pow(abs(data["Potions"].iloc[index] - result["Potions"]["mean"]), 2)
     if pd.notna(data["Care of Magical Creatures"].iloc[index]):
-        result["Care Creature"]["std"] = pow(abs(data["Care of Magical Creatures"].iloc[index] - result["Care Creature"]["mean"]), 2)
+        result["Care Creature"]["std"] += pow(abs(data["Care of Magical Creatures"].iloc[index] - result["Care Creature"]["mean"]), 2)
     if pd.notna(data["Charms"].iloc[index]):
-        result["Charms"]["std"] = pow(abs(data["Charms"].iloc[index] - result["Charms"]["mean"]), 2)
+        result["Charms"]["std"] += pow(abs(data["Charms"].iloc[index] - result["Charms"]["mean"]), 2)
     if pd.notna(data["Flying"].iloc[index]):
-        result["Flying"]["std"] = pow(abs(data["Flying"].iloc[index] - result["Flying"]["mean"]), 2)
+        result["Flying"]["std"] += pow(abs(data["Flying"].iloc[index] - result["Flying"]["mean"]), 2)
 
 def getInfoSubject(resultSubject, listSubject, value):
     resultSubject["count"] += 1

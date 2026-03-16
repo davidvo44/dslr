@@ -6,16 +6,17 @@ import pandas as pd
 from .houseStat import houseStat
 from .subjectStat import subjectStat
 from utils import parse_csv
-@click.command()
 
-def main():
+@click.command()
+@click.argument("dataset_path", required=False, default="datasets/dataset_train.csv")
+def main(dataset_path):
     try:
         while True:
             choice = selectMenu()
             if choice == "House Stat":
-                houseStat()
+                houseStat(dataset_path)
             elif choice == "Subject Stat":
-                subjectStat()
+                subjectStat(dataset_path)
             elif choice == "Quit":
                 break
             time.sleep(1)

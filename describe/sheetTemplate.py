@@ -54,7 +54,6 @@ def sheetTemplate13Col(result):
     Transfigurati = result['Transfigurati']
     Potions = result['Potions']
     CareCreature = result['Care Creature']
-    print(type(result['Care Creature']["std"]))
     Charms = result['Charms']
     Flying = result['Flying']
     click.echo(

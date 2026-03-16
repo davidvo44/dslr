@@ -1,6 +1,8 @@
 import utils
 import matplotlib.pyplot as plt
+import sys
 import os
+from utils import checkFile_csv
 
 HOUSE_COLORS = {
     "Gryffindor": "red",
@@ -70,9 +72,12 @@ def histogram(features, personal_info, course_name):
 
 
 if __name__ == "__main__":
-    file_path = "datasets/dataset_train.csv"
-    features, personal_info, course_name = utils.parse_csv(file_path)
-    if features is None or personal_info is None :
-        print("Error: Failed to load data")
-        exit(1)
-    histogram(features, personal_info, course_name)
+    if len(sys.argv) != 2:
+        print("error argument file")
+    else:
+        if (checkFile_csv(sys.argv[1])== True):
+            features, personal_info, course_name = utils.parse_csv(sys.argv[1])
+            if features is None or personal_info is None :
+                print("Error: Failed to load data")
+                exit(1)
+            histogram(features, personal_info, course_name)

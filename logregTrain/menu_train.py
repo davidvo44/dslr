@@ -2,6 +2,7 @@
 from InquirerPy import inquirer
 import os
 import stat
+import click
 
 def createDBFile():
     db_path = "datasets/db.csv"

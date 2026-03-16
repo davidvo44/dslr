@@ -5,7 +5,7 @@ from .sheetTemplate import sheetTemplate4Col
 import click
 import math
 
-def houseStat():
+def houseStat(dataset_path):
     result = houseStatInterface()
     houseList = {
         "Ravenclaw": [],
@@ -14,7 +14,7 @@ def houseStat():
         "Hufflepuff": [],
     }
     try:
-        data = pd.read_csv("datasets/dataset_train.csv")
+        data = pd.read_csv(dataset_path)
         for i in range(len(data)):
             house = data["Hogwarts House"].iloc[i]
             if house == "Ravenclaw":
