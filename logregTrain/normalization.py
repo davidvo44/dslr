@@ -10,6 +10,7 @@ def logreg_mean(value):
             j += 1
     return result / j
 
+#ecart-type
 def logreg_standard_deviation(value):
     mean = logreg_mean(value)
     result = 0

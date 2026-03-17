@@ -28,6 +28,23 @@ def max_note(all_note):
     return max_note
 
 
+def calculate_mean(features, personal_info):
+    count = len(features)
+
+    mean_house = [[HOUSE_ORDER] for _ in range(len(personal_info[0]))]
+
+    for i in range(len(personal_info[0])):
+        for features in features[i]
+            if features is None:
+                continue
+            mean_house[house_perso[i]][features] += features:
+    for i in range(len(mean_house))
+        for j in range(len(mean_house[i]))
+            mean_house[i][j] = mean_house[i][j] / len(mean_house)
+    
+    return mean_house:
+
+
 def histogram(features, personal_info, course_name):
     if features is None or personal_info is None or course_name is None:
         print("Error: Failed to load data")
