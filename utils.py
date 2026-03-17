@@ -1,6 +1,8 @@
 from pyexpat import features
 import pandas as pd
 import click
+import os
+import stat
 
 HOUSE_ORDER = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
@@ -116,4 +118,5 @@ def checkFile_csv(filepath):
                     and 'Charms' in data.columns and 'Flying' in data.columns:
         return True
     click.echo(click.style(f"❌ Missing columns in {filepath}:", fg='red'))
+    os.chmod(filepath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
     return False

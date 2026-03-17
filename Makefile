@@ -9,18 +9,19 @@ all: $(VENV)/bin/python
 
 $(VENV)/bin/python: requirements.txt
 	python3 -m venv $(VENV)
-	$(PIP) install --upgrade pip
 	$(PIP) install -r requirements.txt
 
 clean:
-	rm -rf __pycache__
-	rm -rf $(VENV)
 	rm -rf histograms
 	rm -rf datasets/db.csv
 	rm -rf datasets/normalization.csv
 	rm -rf pair_plots
 	rm -rf scatter_plots
 	rm -rf datasets/houses.csv
+
+fclean: clean
+	rm -rf __pycache__
+	rm -rf $(VENV)
 
 re : clean all
 

@@ -133,7 +133,6 @@ def updateData(subjectChosen, thetaHouse, subjectStats):
     for iHouse in range (len(utils.HOUSE_ORDER)):
         dataFile.loc[utils.HOUSE_ORDER[iHouse], 'Bias'] = thetaHouse[utils.HOUSE_ORDER[iHouse]]["bias"]
         for subject in subjectChosen:
-            # click.echo(click.style(f"\nDEBUG MODE: {utils.HOUSE_ORDER[iHouse], subject, thetaHouse[utils.HOUSE_ORDER[iHouse]]['value'][subject]}", fg='cyan'))
             dataFile.loc[utils.HOUSE_ORDER[iHouse], subject] = thetaHouse[utils.HOUSE_ORDER[iHouse]]["value"][subject]
     dataFile.to_csv(db_path)
     rows = []
