@@ -64,27 +64,39 @@ def ft_sqrt(a):
     return x
 
 def parse_csv(filepath):
+
     data = open_csv(filepath)
     if data is None:
-        return None
+        return None, None, None
+
+    features = [[] for _ in range(13)] # list of features
+    personal_info = [[] for _ in range(6)] # list of personal information
+
+
+
     lines = data.strip().split('\n') # split the data into lines and remove the empty lines
     header = lines[0].split(",")
     course_name = [header[i+6].strip() for i in range(13)] 
     data_lines = lines[1:] # remove the header line
-    features = [[] for _ in range(13)] # list of features
-    personal_info = [[] for _ in range(6)] # list of personal information
+
     for line in data_lines:
         cols = line.split(',')
+
+        #personal info
         for i in range(6):
             value = cols[i+1].strip()
             if value:
                 personal_info[i].append(value)
             else:
                 personal_info[i].append(None)
+
         for i in range(13):
-            value = cols[i+6].strip()
-            if value:
-                features[i].append(float(value))
+            value = cols[i+6]
+            if value.strip():
+                try:
+                    features[i].append(float(value))
+                except ValueError:
+                    features[i].append(None)
             else:
                 features[i].append(None)
     return features, personal_info, course_name
@@ -103,4 +115,5 @@ def checkFile_csv(filepath):
                 and 'Potions' in data.columns and 'Care of Magical Creatures' in data.columns \
                     and 'Charms' in data.columns and 'Flying' in data.columns:
         return True
+    click.echo(click.style(f"❌ Missing columns in {filepath}:", fg='red'))
     return False

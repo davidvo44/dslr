@@ -72,7 +72,6 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
     for house in utils.HOUSE_ORDER:
         y = []
         for idxPersonal in valid_indices:
-            print(personal_info[0][idxPersonal])
             y.append(1.0 if personal_info[0][idxPersonal] == house else 0.0)
             
         theta = [0.0] * lenSubjectChosen
