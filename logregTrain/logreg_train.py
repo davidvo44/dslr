@@ -42,6 +42,7 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
     lenPersonalInfo= len(personal_info[2])
     lenSubjectChosen = len(subjectChosen) + 1
     
+    click.echo(click.style(f"len {lenSubjectChosen} \n", fg='cyan'))
 
     subjectValue = menu_train.houseStatInterface()
     for subject in subjectChosen:
