@@ -42,7 +42,6 @@ def logreg_train(features, personal_info, course_name, subjectChosen):
     lenPersonalInfo= len(personal_info[2])
     lenSubjectChosen = len(subjectChosen) + 1
     
-    click.echo(click.style(f"len {lenSubjectChosen} \n", fg='cyan'))
 
     subjectValue = menu_train.houseStatInterface()
     for subject in subjectChosen:
@@ -182,6 +181,8 @@ def main(file_path):
     elif choice == "Quit":
         click.echo(click.style(f"\nLeaving....", fg='red'))
         return
+    if len(subjectChosen) == 0:
+        return;
     thetaHouse, subjectStats = logreg_train(features, personal_info, course_name, subjectChosen)
     updateData(subjectChosen, thetaHouse, subjectStats)
     click.echo(click.style(f"\nDone\n", fg='green'))
