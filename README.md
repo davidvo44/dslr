@@ -138,11 +138,13 @@ ou
 .venv/bin/python -m histogram datasets/dataset_train.csv
 ```
 
-Le script génère un histogramme par matière, séparé par maison, dans le dossier :
+Le script calcule le cours dont la distribution est la plus homogène entre les quatre maisons, puis génère son histogramme dans :
 
 ```text
-histograms/
+histograms/best_course.png
 ```
+
+Le nom du cours sélectionné est également affiché dans le terminal.
 
 ### 5.3. Scatter plots
 
@@ -156,11 +158,13 @@ ou
 .venv/bin/python -m scatter_plot datasets/dataset_train.csv
 ```
 
-Le script génère des nuages de points pour comparer les matières deux à deux dans :
+Le script compare toutes les paires de matières avec la corrélation de Pearson, sélectionne les deux features les plus similaires, puis génère un scatter plot dans :
 
 ```text
-scatter_plots/
+scatter_plots/scatter_plot.png
 ```
+
+Les noms des deux matières retenues ainsi que leur corrélation sont affichés dans le terminal.
 
 ### 5.4. Pair plot
 
@@ -283,33 +287,96 @@ describe.py génère un tableau de statistiques résumant les notes des élèves
 
 ## 7. histogram.py
 
-`histogram.py` est un script d'exploration (EDA - Exploratory Data Analysis) qui affiche des histogrammes des notes pour un cours donné (feature numérique), séparées par maison (Gryffindor, Hufflepuff, Ravenclaw, Slytherin), afin de répondre à la question du sujet : **quel cours a une distribution de scores la plus homogène entre les quatre maisons**.
+`histogram.py` est un script d'exploration de données qui répond à la question :
 
-### Couleurs des maisons
+> Which Hogwarts course has a homogeneous score distribution between all four houses?
 
-- **Gryffindor** = brown (marron)
-- **Hufflepuff** = red (rouge)
-- **Ravenclaw** = yellow (jaune)
-- **Slytherin** = green (vert)
+L'idée est de comparer, pour chaque matière, les résultats moyens des quatre maisons afin de trouver le cours où les maisons ont les scores les plus proches.
 
-## Pourquoi c'est utile
+### Méthode utilisée
 
-Cette visualisation permet d'identifier :
-- Les cours **peu discriminants** (distributions très similaires entre maisons)
-- Les cours qui **séparent mieux les maisons**
+Pour chaque matière :
+1. on calcule la moyenne des notes de chaque maison ;
+2. on calcule ensuite la moyenne globale de ces 4 moyennes ;
+3. on mesure à quel point les moyennes des maisons s'écartent de cette moyenne globale.
 
-Ces informations permettent de choisir les features pertinentes pour entraîner la régression logistique et décider quel élève devra aller dans quelle maison.
+Si on note :
+- \( \mu_{G,c} \) = moyenne de Gryffindor pour le cours \(c\)
+- \( \mu_{H,c} \) = moyenne de Hufflepuff pour le cours \(c\)
+- \( \mu_{R,c} \) = moyenne de Ravenclaw pour le cours \(c\)
+- \( \mu_{S,c} \) = moyenne de Slytherin pour le cours \(c\)
 
-## 8.  Scatter plot
+alors on calcule d'abord :
+
+\[
+\mu_c = \frac{\mu_{G,c} + \mu_{H,c} + \mu_{R,c} + \mu_{S,c}}{4}
+\]
+
+Puis un score de dispersion :
+
+\[
+V_c = \frac{
+(\mu_{G,c} - \mu_c)^2 +
+(\mu_{H,c} - \mu_c)^2 +
+(\mu_{R,c} - \mu_c)^2 +
+(\mu_{S,c} - \mu_c)^2
+}{4}
+\]
+
+Le cours retenu est celui dont \(V_c\) est le plus petit, car cela signifie que les moyennes des quatre maisons sont les plus proches. Cette formule correspond à une variance des moyennes de groupes, donc à une mesure simple de dispersion entre maisons. [web:221][web:222][web:92]
+
+### Visualisation
+
+Une fois le meilleur cours trouvé, le script affiche son histogramme en séparant les notes par maison avec des couleurs différentes.
+
+L'histogramme utilise davantage de `bins` pour obtenir des barres plus fines et donc une lecture plus détaillée de la distribution. Dans Matplotlib, augmenter le nombre de bins rend l'histogramme plus précis visuellement. [web:327][web:328][web:333]
+
+### Pourquoi c'est utile
+
+Cette visualisation permet de voir si les distributions des quatre maisons se chevauchent fortement ou non.  
+Un cours homogène est un cours où les maisons ont des profils proches, donc une matière peu discriminante pour la classification. [web:315][web:318]
+
+
+## 8. scatter_plot.py
 
 Le script `scatter_plot.py` répond à la question :
 
-> Quelles sont les deux features les plus similaires ?
+> What are the two features that are similar?
 
-Il permet d'observer :
-- les corrélations visuelles,
-- les redondances entre matières,
-- les relations potentiellement linéaires.
+L'objectif est de trouver les deux matières les plus proches au sens d'une relation linéaire forte, puis d'afficher un nuage de points entre ces deux variables.
+
+### Méthode utilisée
+
+Pour chaque paire de matières \(X\) et \(Y\) :
+1. on conserve uniquement les élèves pour lesquels les deux notes existent ;
+2. on calcule la moyenne de \(X\) et la moyenne de \(Y\) ;
+3. on calcule la corrélation de Pearson.
+
+Si \(x_i\) et \(y_i\) sont les notes d'un élève pour deux matières, alors la corrélation vaut :
+
+\[
+r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
+{\sqrt{\sum (x_i - \bar{x})^2}\sqrt{\sum (y_i - \bar{y})^2}}
+\]
+
+où \( \bar{x} \) et \( \bar{y} \) sont les moyennes des deux matières.
+
+Le coefficient \(r\) est compris entre \(-1\) et \(1\) :
+- \(r \approx 1\) : forte corrélation positive ;
+- \(r \approx -1\) : forte corrélation négative ;
+- \(r \approx 0\) : faible relation linéaire.
+
+Le script compare toutes les paires de matières et conserve celle dont la valeur absolue \(|r|\) est la plus grande. La corrélation de Pearson est une mesure standard de la force d'une relation linéaire entre deux variables numériques. [web:256][web:266][web:267]
+
+### Visualisation
+
+Une fois la meilleure paire trouvée, le script génère un scatter plot coloré par maison.  
+Le nuage de points permet de vérifier visuellement si les deux matières évoluent ensemble et si les maisons occupent des zones différentes ou non. Les scatter plots sont utilisés précisément pour visualiser la direction, la forme et la force d'une relation entre deux variables. [web:265][web:267][web:292]
+
+### Pourquoi c'est utile
+
+Deux matières très corrélées apportent souvent une information redondante au modèle.  
+Cette étape aide donc à éviter de sélectionner plusieurs features qui disent presque la même chose.
 
 ### Pair plot
 
