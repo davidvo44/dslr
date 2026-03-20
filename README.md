@@ -301,40 +301,27 @@ Pour chaque matière :
 3. on mesure à quel point les moyennes des maisons s'écartent de cette moyenne globale.
 
 Si on note :
-- \( \mu_{G,c} \) = moyenne de Gryffindor pour le cours \(c\)
-- \( \mu_{H,c} \) = moyenne de Hufflepuff pour le cours \(c\)
-- \( \mu_{R,c} \) = moyenne de Ravenclaw pour le cours \(c\)
-- \( \mu_{S,c} \) = moyenne de Slytherin pour le cours \(c\)
+ug = sommes des notes de gryffindor / nombres d'eleves de gryffindor
 
-alors on calcule d'abord :
+Ensuite la moyenne des 4 maisons:
+uc = (ug + uh + ur + us) / 4
 
-\[
-\mu_c = \frac{\mu_{G,c} + \mu_{H,c} + \mu_{R,c} + \mu_{S,c}}{4}
-\]
 
-Puis un score de dispersion :
+Puis le score du cours :
+Vc = ((ug - uc)2 + (uh - uc)2 + (ur - uc)2 + (us - uc)2) / 4 
 
-\[
-V_c = \frac{
-(\mu_{G,c} - \mu_c)^2 +
-(\mu_{H,c} - \mu_c)^2 +
-(\mu_{R,c} - \mu_c)^2 +
-(\mu_{S,c} - \mu_c)^2
-}{4}
-\]
-
-Le cours retenu est celui dont \(V_c\) est le plus petit, car cela signifie que les moyennes des quatre maisons sont les plus proches. Cette formule correspond à une variance des moyennes de groupes, donc à une mesure simple de dispersion entre maisons. [web:221][web:222][web:92]
+Le cours retenu est celui dont Vc est le plus petit, car cela signifie que les moyennes des quatre maisons sont les plus proches. Cette formule correspond à une variance des moyennes de groupes, donc à une mesure simple de dispersion entre maisons.
 
 ### Visualisation
 
 Une fois le meilleur cours trouvé, le script affiche son histogramme en séparant les notes par maison avec des couleurs différentes.
 
-L'histogramme utilise davantage de `bins` pour obtenir des barres plus fines et donc une lecture plus détaillée de la distribution. Dans Matplotlib, augmenter le nombre de bins rend l'histogramme plus précis visuellement. [web:327][web:328][web:333]
+L'histogramme utilise davantage de `bins` pour obtenir des barres plus fines et donc une lecture plus détaillée de la distribution. Dans Matplotlib, augmenter le nombre de bins rend l'histogramme plus précis visuellement.
 
 ### Pourquoi c'est utile
 
 Cette visualisation permet de voir si les distributions des quatre maisons se chevauchent fortement ou non.  
-Un cours homogène est un cours où les maisons ont des profils proches, donc une matière peu discriminante pour la classification. [web:315][web:318]
+Un cours homogène est un cours où les maisons ont des profils proches, donc une matière peu discriminante pour la classification.
 
 
 ## 8. scatter_plot.py
@@ -347,31 +334,41 @@ L'objectif est de trouver les deux matières les plus proches au sens d'une rela
 
 ### Méthode utilisée
 
-Pour chaque paire de matières \(X\) et \(Y\) :
+Pour chaque paire de matières X et Y :
 1. on conserve uniquement les élèves pour lesquels les deux notes existent ;
-2. on calcule la moyenne de \(X\) et la moyenne de \(Y\) ;
+2. on calcule la moyenne de X et la moyenne de Y ;
 3. on calcule la corrélation de Pearson.
 
-Si \(x_i\) et \(y_i\) sont les notes d'un élève pour deux matières, alors la corrélation vaut :
+Pour X :
+  x = (x1 + x2 + x3 .... xn) / n
 
-\[
-r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
-{\sqrt{\sum (x_i - \bar{x})^2}\sqrt{\sum (y_i - \bar{y})^2}}
-\]
+Pour Y :
+  y = (y1 + y2 + y3 .... yn) / n
 
-où \( \bar{x} \) et \( \bar{y} \) sont les moyennes des deux matières.
+Puis la corelation :
+  r = sommes(xi - x)(yi - y) / racinecarre(somme(xi - x)2)racinecarre(somme(yi - y)2)
 
-Le coefficient \(r\) est compris entre \(-1\) et \(1\) :
-- \(r \approx 1\) : forte corrélation positive ;
-- \(r \approx -1\) : forte corrélation négative ;
-- \(r \approx 0\) : faible relation linéaire.
+Le coefficient r est compris entre -1 et 1 :
+- 1 : forte corrélation positive les deux matières évoluent dans le même sens ;
+- -1 : forte corrélation négative elles évoluent en sens inverse;
+- 0 : faible relation linéaire.
 
-Le script compare toutes les paires de matières et conserve celle dont la valeur absolue \(|r|\) est la plus grande. La corrélation de Pearson est une mesure standard de la force d'une relation linéaire entre deux variables numériques. [web:256][web:266][web:267]
+Exemple :
+
+r=0.92 : très forte relation.
+
+r=−0.89 : aussi très forte relation.
+
+r=0.15 : relation faible.
+
+Donc entre 0.92 et -0.89, la paire à 0.92 est un peu plus forte, mais les deux sont de très bonnes corrélations. Ce qui compte d’abord, c’est la proximité de r avec 1. 
+
+Le script compare toutes les paires de matières et conserve celle dont la valeur absolue r est la plus grande. La corrélation de Pearson est une mesure standard de la force d'une relation linéaire entre deux variables numériques.
 
 ### Visualisation
 
 Une fois la meilleure paire trouvée, le script génère un scatter plot coloré par maison.  
-Le nuage de points permet de vérifier visuellement si les deux matières évoluent ensemble et si les maisons occupent des zones différentes ou non. Les scatter plots sont utilisés précisément pour visualiser la direction, la forme et la force d'une relation entre deux variables. [web:265][web:267][web:292]
+Le nuage de points permet de vérifier visuellement si les deux matières évoluent ensemble et si les maisons occupent des zones différentes ou non. Les scatter plots sont utilisés précisément pour visualiser la direction, la forme et la force d'une relation entre deux variables. 
 
 ### Pourquoi c'est utile
 
