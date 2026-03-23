@@ -13,14 +13,17 @@ from utils import checkFile_csv
 
 bar = None
 
+
 def start_bar(total):
     global bar
     ctx = alive_bar(total)
     bar = ctx.__enter__()
     return ctx
 
+
 def update_bar():
     bar()
+
 
 def logreg_train(features, personal_info, course_name, subjectChosen):
     ctx = start_bar(100)

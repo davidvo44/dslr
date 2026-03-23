@@ -120,7 +120,6 @@ def grad_descent(X, y, theta , nb_iteration, learning_rate):
             z = score_lineaire(X[eleve_idx], theta)
             h = sigmoid(z)
             e = h - y[eleve_idx]
-
             for para_idx in range(len(theta)):
                 gradient[para_idx] += e * X[eleve_idx][para_idx]
         

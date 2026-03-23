@@ -22,12 +22,12 @@ def main(file_path):
     db_path = "datasets/db.csv"
     try:
         os.chmod(db_path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+        inputFile = pd.read_csv(file_path)
+        dataFile = pd.read_csv(db_path).set_index("House")
+        normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
     except:
         click.echo(click.style(f"No Database File", fg='red'))
         return
-    inputFile = pd.read_csv(file_path)
-    dataFile = pd.read_csv(db_path).set_index("House")
-    normFile = pd.read_csv("datasets/normalization.csv").set_index("Subject")
     try:
         with open("datasets/houses.csv", 'w') as f:
             f.write("Index,Hogwarts House\n")

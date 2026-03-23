@@ -85,7 +85,6 @@ def calculate_mean_by_feature_by_house(mean_house, features, course_name):
     small = None
     feature = None
     for i in range(nb_features):
-        
         if variance[i] is None:
             continue
         if small is None or variance[i] < small:
