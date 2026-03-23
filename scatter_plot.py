@@ -120,7 +120,6 @@ def scatter_plot(features, personal_info, course_name):
     plt.close()
 
     print(f"Most similar features: {course_name[best_i]} and {course_name[best_j]}")
-    print(f"Pearson correlation: {best_corr:.4f}")
 
     return course_name[best_i], course_name[best_j], best_corr
 
