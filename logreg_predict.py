@@ -56,11 +56,17 @@ def predictmodel(dataFile, inputFile, indexStudent, normFile):
             weight =  dataFile.loc[idxHouse, subject]
             if weight == 0.0 or pd.isna(weight):
                 continue
+            if bias == 0.0 or pd.isna(bias):
+                continue
             studentScore = inputFile[subject].iloc[indexStudent]
             if pd.isna(studentScore):
                 continue
             mean = normFile.loc[subject, "mean"]
             std  = normFile.loc[subject, "std"]
+            if pd.isna(std) or std == 0:
+                continue
+            if pd.isna(mean) or mean == 0:
+                continue
             studentScore = (studentScore - mean) / std
             result[idxHouse]["value"] += studentScore * weight
     if count != 0:

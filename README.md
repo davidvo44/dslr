@@ -296,7 +296,7 @@ L'idée est de comparer, pour chaque matière, les résultats moyens des quatre 
 ### Méthode utilisée
 
 Pour chaque matière :
-1. on calcule la moyenne des notes de chaqe maison ;
+1. on calcule la moyenne des notes de chaque maison ;
 2. on calcule ensuite la moyenne globale de ces 4 moyennes ;
 3. on mesure à quel point les moyennes des maisons s'écartent de cette moyenne globale.
 

@@ -39,6 +39,10 @@ def pearson_correlation(x_values, y_values):
 
     return numerator / ((sum_x ** 0.5) * (sum_y ** 0.5))
 
+def ft_abs(value):
+    if value < 0:
+        return -value
+    return value
 
 def scatter_plot(features, personal_info, course_name):
     if features is None or personal_info is None or course_name is None:
@@ -59,7 +63,12 @@ def scatter_plot(features, personal_info, course_name):
             features_data_x = features[i]
             features_data_y = features[j]
 
-            lenn = min(len(features_data_x), len(features_data_y), len(house_personal))
+            lenn = len(features_data_x)
+            if len(features_data_y) < lenn:
+                lenn = len(features_data_y)
+            if len(house_personal) < lenn:
+                lenn = len(house_personal)
+
 
             x_values = []
             y_values = []
@@ -85,7 +94,7 @@ def scatter_plot(features, personal_info, course_name):
             if corr is None:
                 continue
 
-            if best_corr is None or abs(corr) > abs(best_corr):
+            if best_corr is None or ft_abs(corr) > ft_abs(best_corr):
                 best_corr = corr
                 best_i = i
                 best_j = j
@@ -111,7 +120,6 @@ def scatter_plot(features, personal_info, course_name):
     plt.legend()
     plt.title(
         f"Scatter plot of {course_name[best_i]} and {course_name[best_j]}\n"
-        f"Pearson correlation = {best_corr:.4f}"
     )
     plt.xlabel(course_name[best_i])
     plt.ylabel(course_name[best_j])
