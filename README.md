@@ -296,7 +296,7 @@ L'idée est de comparer, pour chaque matière, les résultats moyens des quatre 
 ### Méthode utilisée
 
 Pour chaque matière :
-1. on calcule la moyenne des notes de chaque maison ;
+1. on calcule la moyenne des notes de chaqe maison ;
 2. on calcule ensuite la moyenne globale de ces 4 moyennes ;
 3. on mesure à quel point les moyennes des maisons s'écartent de cette moyenne globale.
 
@@ -363,7 +363,7 @@ r=0.15 : relation faible.
 
 Donc entre 0.92 et -0.89, la paire à 0.92 est un peu plus forte, mais les deux sont de très bonnes corrélations. Ce qui compte d’abord, c’est la proximité de r avec 1. 
 
-Le script compare toutes les paires de matières et conserve celle dont la valeur absolue r est la plus grande. La corrélation de Pearson est une mesure standard de la force d'une relation linéaire entre deux variables numériques.
+J’utilise Pearson parce que je cherche la paire de variables dont le nuage de points ressemble le plus à une droite (y = ax + b). Si le nuage avait montré une relation ordonnée mais courbe, Spearman aurait été un meilleur choix.
 
 ### Visualisation
 

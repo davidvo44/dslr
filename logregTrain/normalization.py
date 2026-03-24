@@ -1,7 +1,6 @@
 from utils import ft_sqrt
 
 def logreg_mean(value):
-    m = len(value)
     result = 0
     j = 0
     for i in range(len(value)):
